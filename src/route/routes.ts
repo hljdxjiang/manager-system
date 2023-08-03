@@ -26,6 +26,10 @@ import TUserInfo from "@/pages/user/tUserInfo"
 
 import TSysRole from '@/pages/sys/tSysRole'
 
+import THotelInfo from '@/pages/hotel/tHotelInfo'
+
+import THotelRoomInfo from '@/pages/hotel/tHotelRoomInfo'
+
 /**
  * path 跳转的路径
  * component 对应路径显示的组件
@@ -72,6 +76,22 @@ const preDefinedRoutes: MenuRoute[] = [
         key: 'user:list:view',
         //hideInMenu: true,
         component: TSysRole
+      },
+      {
+        path: '/sys/list/THotelInfo',
+        name: '酒店管理',
+        exact: true,
+        key: 'user:list:view',
+        //hideInMenu: true,
+        component: THotelInfo
+      },
+      {
+        path: '/sys/list/THotelRoomInfo',
+        name: '房间管理',
+        exact: true,
+        key: 'user:list:view',
+        //hideInMenu: true,
+        component: THotelRoomInfo
       }
     ]
   },

@@ -120,7 +120,7 @@ const MyModal: FC<ModalProps> = (
         return <Editor value={row[item["dataIndex"]]} onChange={handChange.bind(this, idx, "edit")}></Editor>
       }
       if (type === "textarea") {
-        return <Input.TextArea value={row[item["dataIndex"]]}  id={item["dataIndex"]}  onChange={handChange}></Input.TextArea>
+        return <Input.TextArea value={row[item["dataIndex"]]} disabled={!canEdit} id={item["dataIndex"]}  onChange={handChange}></Input.TextArea>
       }
       return <Input placeholder={item["title"]} id={item["dataIndex"]} onChange={handChange} allowClear value={row[item["dataIndex"]]} disabled={!canEdit} />
     }

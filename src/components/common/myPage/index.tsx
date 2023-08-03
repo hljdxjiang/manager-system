@@ -44,8 +44,15 @@ const MyPage: FC<PageProps> = (
     const [tableColumns, setTabColumns] = useState([])
 
     useEffect(() => {
+      var tableColums=[];
+      columns.forEach(element => {
+        console.log("columns",element)
+        if(element["tableShow"]===undefined||element["tableShow"]===true){
+          tableColums.push(element);
+        }
+      });
       if (showOpeation === false) {
-        setTabColumns(columns)
+        setTabColumns(tableColums)
       } else {
         const opera = {
           title: '操作',
@@ -68,7 +75,7 @@ const MyPage: FC<PageProps> = (
             </>
           )
         }
-        var newColumns = [...columns, opera]
+        var newColumns = [...tableColums, opera]
         setTabColumns(newColumns)
 
       }
