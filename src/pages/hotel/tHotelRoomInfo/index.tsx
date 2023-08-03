@@ -1,18 +1,16 @@
 import React, { useRef, FC, useState } from 'react'
-import { Button, Input, } from 'antd'
+import { Button, Input, Modal, } from 'antd'
 import { isAuthorized } from '@/assets/js/publicFunc'
 import tHotelInfo from '@/api/hotel/tHotelInfo'
 import tHotelInfoApi from '@/api/hotel/tHotelInfo'
 import { onItemChange } from "@/utils/tableCommon";
 import MyTable from '@/components/common/table';
-import MyModal from '@/components/common/myModal'
-import HotelRoomModel from './hotelRoomModel';
+import HotelRoomDetail from './hotelRoomDetail'
 
 const THotelRoomInfo: FC = () => {
 
   const permissionPrefix = "user:list";
   const tableRef: RefType = useRef()
-  const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectRow, setSelectRow] = useState(Object);
   const [selectKeys, setSelectKeys] = useState([]);
@@ -22,38 +20,26 @@ const THotelRoomInfo: FC = () => {
     setVisible(true)
     setSelectRow({});
   }
-  const delBatch = () => {
-    console.log(selectKeys)
-  }
 
   const onSelectRow = (rowKeys: string[]) => {
     setSelectKeys(rowKeys);
     console.log(selectKeys)
   }
 
-  const handleOk = () => {
-    setSelectRow({});
-    setVisible(false)
-  }
-
-  const onChange = (e, stype?, sid?) => {
-    var newRow = onItemChange(selectRow, e, stype, sid);
-    setSelectRow(newRow)
-  }
-
   // 编辑
   const doEdit = (record) => {
     setSelectRow(record)
-    setOpen(true)
+    setVisible(true)
   }
   // 查看
   const doView = (record) => {
     setSelectRow(record)
-    setOpen(true)
+    setVisible(true)
   }
-  const doDel = (record) => {
-    tHotelInfo.deleteById(record)
-    setKey((Math.random() * 10).toString())
+
+  const doBack = () => {
+    setSelectRow({})
+    setVisible(false)
   }
 
   // 搜索栏配置项
@@ -72,12 +58,12 @@ const THotelRoomInfo: FC = () => {
     }
   ]
 
-  const tableColumns=[    {
+  const tableColumns = [{
     title: '酒店ID',
     dataIndex: 'hotelId',
   }
 
-  , {
+    , {
     title: '酒店名称',
     dataIndex: 'hotelName',
   }]
@@ -103,7 +89,7 @@ const THotelRoomInfo: FC = () => {
     , {
       title: '酒店主图',
       dataIndex: 'mainImg',
-      tableShow:false,
+      tableShow: false,
     }
 
     , {
@@ -143,27 +129,21 @@ const THotelRoomInfo: FC = () => {
   ]
   return (
     <>
-            <Button className="fr" onClick={add} type="primary">
-      新增
-    </Button>
-    <MyTable
-        key={key}
-        apiFun={tHotelInfoApi.queryByPage}
-        columns={columns}
-        ref={tableRef}
-        onSelectRow={selectRow}
-        searchConfigList={searchConfigList}
-        extraProps={{ results: 10 }}
-      />
-      <HotelRoomModel
-        title={"房间管理"}
-        visible={visible}
-        onOk={handleOk}
-        onCancel={handleOk}
-        key={key}
-        columns={tableColumns}
-        row={selectRow}
-      />
+      <div><Button className="fr" onClick={add} type="primary">
+        新增
+      </Button>
+        <MyTable
+          apiFun={tHotelInfoApi.queryByPage}
+          columns={columns}
+          ref={tableRef}
+          onSelectRow={selectRow}
+          searchConfigList={searchConfigList}
+          extraProps={{ results: 10 }}
+        /></div>
+      <Modal visible={visible} title={"房间详情"} width={"80%"}>
+        <HotelRoomDetail title={"酒店信息"} row={selectRow} onHotelAdd={doBack} />
+      </Modal>
+
     </>
   )
 }

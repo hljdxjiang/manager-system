@@ -1,8 +1,8 @@
 import React, {
   FC, useRef, useState
 } from 'react'
-import { Modal, Descriptions, Input } from 'antd'
-import RoomAddTable from './roomAddTable';
+import { Modal, Descriptions, Input, Button, Table } from 'antd'
+import MyTable from '@/components/common/table'
 
 /**
  * 封装对话框，展示修改内容
@@ -23,15 +23,16 @@ interface ModalProps {
   columns?: Object[]
   onCancel?: (arg0?: unknown) => void
   onOk?: (arg0?: unknown) => void
+  onHotelAdd?: (arg0?: unknown) => void
   visible?: boolean
   width?: string | number
   cancelText?: String
   okText?: String
   keyboard?: boolean
-  title: String
+  title?: String
 }
 
-const HotelRoomModel: FC<ModalProps> = (
+const HotelRoomDetail: FC<ModalProps> = (
   (props: ModalProps) => {
     /**
      * 引用父组件的ref实例，成为子组件的一个参数
@@ -39,22 +40,35 @@ const HotelRoomModel: FC<ModalProps> = (
      */
     const {
       row,
-      columns,
-      visible,
-      onOk,
-      onCancel,
-      width,
-      cancelText,
-      okText,
-      keyboard,
-      title
+      title,onHotelAdd
     } = props
 
+    const doBack=()=>{
+      onHotelAdd()
+    }
+
     const [key, setKey] = useState(String)
+    const [addedRooms, setAddedRooms] = useState([])
+    const [newRooms, setNewRooms] = useState([])
     const tableRef: RefType = useRef()
     const [selectRow, setSelectRow] = useState(Object);
 
+    var columns = [
+      {
+        title: '酒店ID',
+        dataIndex: 'hotelId',
+      }
 
+      , {
+        title: '酒店名称',
+        dataIndex: 'hotelName',
+      }
+
+      , {
+        title: '城市名称',
+        dataIndex: 'cityName',
+      }
+    ]
 
     const createItems = () => {
       return columns.map((item, _) => {
@@ -75,45 +89,34 @@ const HotelRoomModel: FC<ModalProps> = (
         )
       })
     }
-    const handOk = (): void => {
-      onOk()
-    }
-    const handCancle = (): void => {
-      onCancel();
-    }
 
     const createInput = (item) => {
       return <Input placeholder={item["title"]} id={item["dataIndex"]} allowClear value={row[item["dataIndex"]]} disabled={true} />
     }
 
     return (
-      <div>
-        <Modal
-          title={title}
-          onOk={handOk}
-          visible={visible}
-          width={width}
-          onCancel={handCancle}
-          keyboard={keyboard}
-          okText={okText}
-          cancelText={cancelText}
-        >
-          <Descriptions bordered>
-            {createItems()}
-          </Descriptions>
-          <RoomAddTable
-            row={row}/>
-        </Modal>
-      </div >
-    )
+      <>
+        <Descriptions title={title}>
+          {createItems()}
+        </Descriptions>
+        <span style={{ marginLeft: 8 }}>
+          {"已添加列表"}
+        </span>
+        <Table columns={[]} dataSource={addedRooms} scroll={{ y: "30%" }}></Table>
+        <span style={{ marginLeft: 8 }}>
+          {"新房间列表"}
+        </span>
+        <Table columns={[]} dataSource={newRooms}  scroll={{ y: "30%" }}></Table>
+      </>)
   }
 )
 
-HotelRoomModel.defaultProps = {
+HotelRoomDetail.defaultProps = {
   row: {},
   visible: false,
   onOk: () => { },
   onCancel: () => { },
+  onHotelAdd: () => { },
   width: "80%",
   cancelText: "取消",
   okText: "确认",
@@ -121,4 +124,4 @@ HotelRoomModel.defaultProps = {
   title: "编辑"
 }
 
-export default HotelRoomModel
+export default HotelRoomDetail

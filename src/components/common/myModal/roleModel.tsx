@@ -5,12 +5,9 @@ import { Modal, Descriptions, Input, DatePicker, TimePicker, Row, Col, Tree } fr
 import MySelect from '@/components/common/mySelect'
 import MyUpload from '../myUpload';
 import Editor from '../editor';
-import TextArea from 'antd/lib/input/TextArea';
 import type { DataNode } from 'rc-tree/lib/interface';
 import { Key } from 'antd/es/table/interface';
-import revokes from '@/route/revokes';
 import { getAllRevokes, getAppMenus } from '@/assets/js/publicFunc';
-import Item from 'antd/lib/list/Item';
 import { MenuRoute } from '@/route/types';
 
 /**
@@ -85,10 +82,6 @@ const RoleModel: FC<ModalProps> = (
       onChange(e, stype, sid)
     }
 
-    const onConcel = () => {
-      //console.log("onCancel", roleInfo, menus, revokes)
-
-    }
 
     const onSelectCheck = (type,menusKey) => {
       console.log('onSelectCheck', menusKey,type);

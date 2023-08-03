@@ -5,7 +5,6 @@ import { Modal, Descriptions, Input, DatePicker, TimePicker } from 'antd'
 import MySelect from '@/components/common/mySelect'
 import MyUpload from '../myUpload';
 import Editor from '../editor';
-import TextArea from 'antd/lib/input/TextArea';
 
 /**
  * 封装对话框，展示修改内容
