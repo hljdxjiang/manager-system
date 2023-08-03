@@ -81,7 +81,7 @@ const preDefinedRoutes: MenuRoute[] = [
         path: '/sys/list/THotelInfo',
         name: '酒店管理',
         exact: true,
-        key: 'user:list:view',
+        key: 'auth:test:view',
         //hideInMenu: true,
         component: THotelInfo
       },
@@ -89,36 +89,11 @@ const preDefinedRoutes: MenuRoute[] = [
         path: '/sys/list/THotelRoomInfo',
         name: '房间管理',
         exact: true,
-        key: 'user:list:view',
+        key: 'user:list:edit',
         //hideInMenu: true,
         component: THotelRoomInfo
       }
     ]
-  },
-  {
-    path: '/auth',
-    name: '权限测试页',
-    exact: true,
-    key: 'auth:test:view',
-    icon: BankOutlined,
-    component: AuthTest
-  },
-  {
-    path: '/test-api',
-    name: '测试api',
-    exact: true,
-    key: '/test-api',
-    icon: ApiOutlined,
-    component: TestApiLoad
-  },
-  {
-    path: '/403',
-    name: '暂无权限',
-    exact: true,
-    key: '/403',
-    icon: InfoCircleOutlined,
-    hideInMenu: true,
-    component: ErrorPage
   }
 ]
 

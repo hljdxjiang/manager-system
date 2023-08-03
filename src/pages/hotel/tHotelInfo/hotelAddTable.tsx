@@ -4,6 +4,7 @@ import React, {
 import hotelApi from '@/api/hotel/hotelApi';
 import MyTable from '@/components/common/table';
 import tHotelInfoApi from '@/api/hotel/tHotelInfo';
+import { Button, Input } from 'antd';
 
 /**
  * 封装对话框，展示修改内容
@@ -21,6 +22,8 @@ import tHotelInfoApi from '@/api/hotel/tHotelInfo';
 
 interface ModalProps {
   row?: object
+  handerAdd?: (arg0?: unknown) => void
+
 }
 
 const HotelAddTable: FC<ModalProps> = (
@@ -33,16 +36,75 @@ const HotelAddTable: FC<ModalProps> = (
     const [key, setKey] = useState(String)
     const tableRef: RefType = useRef()
 
-    useEffect(()=>{
-      hotelApi.findHotel
-    },[key])
+    const doAdd=(record)=>{
+      handerAdd(record)
+    }
 
-    const searchConfigList=[]
+
+    const searchConfigList=[{
+      key: 'hotelName',
+      slot: <Input placeholder="酒店名称" allowClear />,
+      rules: [],
+      initialValue: ''
+    }
+    , {
+      key: 'cityName',
+      slot: <Input placeholder="城市名称" allowClear />,
+      rules: [],
+      initialValue: ''
+    }]
 
     const {
-      row,
+      row,handerAdd
     } = props
-    const columns = []
+    const columns = [{
+      title: '酒店ID',
+      dataIndex: 'hotelId',
+    }
+
+    , {
+      title: '酒店名称',
+      dataIndex: 'hotelName',
+    }
+
+    , {
+      title: '城市名称',
+      dataIndex: 'cityName',
+    }
+
+    , {
+      title: '地址',
+      dataIndex: 'address',
+      tableShow: false,
+    }
+
+    , {
+      title: '酒店星级',
+      dataIndex: 'hotelStar',
+    }
+
+
+    , {
+      title: '酒店主图',
+      dataIndex: 'mainImg',
+      tableShow: false,
+    },{
+      title: '操作',
+      dataIndex: 'operations',
+      align: 'center',
+      editFlag: false,
+      render: (text, record) => (
+        <>
+          {record["addedFlag"]==="N" && (
+            <Button className="btn" onClick={() => { doAdd(record) }} size="small">
+              编辑
+            </Button>
+          )}
+          {record["addedFlag"]==="Y" && (
+            "已添加"
+          )}
+        </>
+      )}]
 
     return (
       <MyTable
@@ -58,6 +120,7 @@ const HotelAddTable: FC<ModalProps> = (
 
 HotelAddTable.defaultProps = {
   row: {},
+  handerAdd:()=>{}
 }
 
 export default HotelAddTable

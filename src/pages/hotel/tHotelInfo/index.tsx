@@ -5,12 +5,17 @@ import tHotelInfoApi from '@/api/hotel/tHotelInfo'
 import { onItemChange } from "@/utils/tableCommon";
 import MyTable from '@/components/common/table';
 import MyModal from '@/components/common/myModal'
+import hotelApi from '@/api/hotel/hotelApi';
+import HotelAddModel from './hotelAddModel';
+import "./hotel.less"
 
 const THotelInfo: FC = () => {
 
   const permissionPrefix = "user:list";
   const tableRef: RefType = useRef()
   const [open, setOpen] = useState(false);
+  const [editFlag, setEditFlag] = useState(false);
+  const [addFlag, setAddFlag] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [selectRow, setSelectRow] = useState(Object);
   const [selectKeys, setSelectKeys] = useState([]);
@@ -18,6 +23,8 @@ const THotelInfo: FC = () => {
   // 添加
   const add = () => {
     setOpen(true)
+    setEditFlag(false)
+    setAddFlag(true)
     setCanEdit(true)
     setSelectRow({});
   }
@@ -57,6 +64,12 @@ const THotelInfo: FC = () => {
     setSelectRow({});
     setCanEdit(false)
     setOpen(false)
+  }
+
+  const onHotelAdd=(record)=>{
+    setAddFlag(false);
+    setEditFlag(true);
+    setSelectRow(record)
   }
 
   const onChange = (e, stype?, sid?) => {
@@ -118,7 +131,7 @@ const THotelInfo: FC = () => {
     {
       title: 'ID',
       dataIndex: 'id',
-      tableShow:false,
+      tableShow: false,
     }
 
     , {
@@ -139,7 +152,7 @@ const THotelInfo: FC = () => {
     , {
       title: '地址',
       dataIndex: 'address',
-      tableShow:false,
+      tableShow: false,
     }
 
     , {
@@ -151,13 +164,13 @@ const THotelInfo: FC = () => {
     , {
       title: '酒店主图',
       dataIndex: 'mainImg',
-      tableShow:false,
+      tableShow: false,
     }
 
     , {
       title: '所属分组ID',
       dataIndex: 'groupId',
-      tableShow:false,
+      tableShow: false,
     }
 
     , {
@@ -231,15 +244,17 @@ const THotelInfo: FC = () => {
       {isAuthorized(permissionPrefix + ':del') && <BatchDelBtn />}
       <MyTable
         key={key}
-        apiFun={undefined}
+        apiFun={hotelApi.findHotel}
         columns={columns}
         ref={tableRef}
         onSelectRow={selectRow}
         searchConfigList={searchConfigList}
         extraProps={{ results: 10 }}
       />
-      <MyModal title="aaaa" visible={open} onCancel={handCancle} onOk={handleOk} columns={columns}
+      <MyModal title="酒店详情" visible={open && editFlag} onCancel={handCancle} onOk={handleOk} columns={columns}
         canEdit={canEdit} row={selectRow} onChange={onChange} />
+      <HotelAddModel title="添加酒店" visible={open && addFlag} onCancel={handCancle} onOk={handleOk}
+        row={selectRow} />
     </>
   )
 }

@@ -23,6 +23,7 @@ interface ModalProps {
   columns?: Object[]
   onCancel?: (arg0?: unknown) => void
   onOk?: (arg0?: unknown) => void
+  onHotelAdd?: (arg0?: unknown) => void
   visible?: boolean
   width?: string | number
   cancelText?: String
@@ -43,6 +44,7 @@ const HotelAddModel: FC<ModalProps> = (
       visible,
       onOk,
       onCancel,
+      onHotelAdd,
       width,
       cancelText,
       okText,
@@ -54,32 +56,15 @@ const HotelAddModel: FC<ModalProps> = (
     const tableRef: RefType = useRef()
     const [selectRow, setSelectRow] = useState(Object);
 
-
-
-    const createItems = () => {
-      return columns.map((item, _) => {
-        if (item["editFlag"] === false) {
-          return "";
-        }
-        if (item["span"] !== undefined) {
-          return (
-            <Descriptions.Item label={item["title"]} span={3}>
-              {createInput(item)}
-            </Descriptions.Item>
-          )
-        }
-        return (
-          <Descriptions.Item label={item["title"]}>
-            {createInput(item)}
-          </Descriptions.Item>
-        )
-      })
-    }
     const handOk = (): void => {
       onOk()
     }
     const handCancle = (): void => {
       onCancel();
+    }
+
+    const  handAdd=(record)=>{
+      onHotelAdd(record)
     }
 
     const createInput = (item) => {
@@ -98,9 +83,6 @@ const HotelAddModel: FC<ModalProps> = (
           okText={okText}
           cancelText={cancelText}
         >
-          <Descriptions bordered>
-            {createItems()}
-          </Descriptions>
           <HotelAddTable
             row={row}/>
         </Modal>
@@ -114,6 +96,7 @@ HotelAddModel.defaultProps = {
   visible: false,
   onOk: () => { },
   onCancel: () => { },
+  onHotelAdd: () => { },
   width: "80%",
   cancelText: "取消",
   okText: "确认",
