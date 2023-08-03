@@ -2,6 +2,7 @@ import Axios from 'axios'
 import { message } from 'antd'
 import { store } from '@/store'
 import { HashRouter } from 'react-router-dom'
+import { commonConfirm } from '@/assets/js/publicFunc'
 
 interface AxiosConfig {
   timeout: number
@@ -47,11 +48,16 @@ axios.interceptors.response.use(
   (response): Promise<any> => {
     // todo 应考虑在全局统一化响应数据格式.如果没有,则应移除这个拦截器
     const { data } = response
-    if (data.results?.length) {
-      return Promise.resolve({
-        rows: data.results,
-        total: data.results.length
+    if(data.code==="401"){
+      commonConfirm("登录超时",()=>{
+        clearAll();
       })
+    }
+    if(data.code!=="000000"){
+      message.error(data.message)
+    }
+    if (data.data) {
+      return Promise.resolve(data.data)
     }
     if (data) {
       return Promise.resolve(data)

@@ -60,7 +60,9 @@ const HotelRoomDetail: FC<ModalProps> = (
       if(selectRow===undefined){
         return;
       }
-      hotelApi.roomDetail(row)
+      const res=hotelApi.roomDetail(row)
+      setAddedRooms(res["data"]["addedRooms"])
+      setAddedRooms(res["data"]["newRooms"])
     }, [key,row])
 
     const add = (record) => {
