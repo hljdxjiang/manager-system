@@ -105,7 +105,6 @@ const TSysRole: FC = () => {
 
   return (
     <>
-      {isAuthorized('user:list:add') && <AddBtn />}
       <RolePage
       apiFun={tSysRoleApi.queryByPage}
       columns={columns}

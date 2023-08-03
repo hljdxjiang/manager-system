@@ -189,7 +189,6 @@ const RolePage: FC<PageProps> = (
     }
     return (<>
       {isAuthorized(permissionPrefix + ':add') && showAddBtn && <AddBtn />}
-      {isAuthorized(permissionPrefix + ':del') && showBatchDelBtn && <BatchDelBtn />}
       <MyTable
         key={key}
         apiFun={apiFun}

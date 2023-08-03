@@ -1,7 +1,7 @@
 import React, {
   FC, useRef, useState
 } from 'react'
-import { Modal, Descriptions, Input } from 'antd'
+import { Modal, Input } from 'antd'
 import HotelAddTable from './hotelAddTable'
 
 /**

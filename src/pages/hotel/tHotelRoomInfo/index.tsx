@@ -1,9 +1,7 @@
 import React, { useRef, FC, useState } from 'react'
 import { Button, Input, Modal, } from 'antd'
 import { isAuthorized } from '@/assets/js/publicFunc'
-import tHotelInfo from '@/api/hotel/tHotelInfo'
 import tHotelInfoApi from '@/api/hotel/tHotelInfo'
-import { onItemChange } from "@/utils/tableCommon";
 import MyTable from '@/components/common/table';
 import HotelRoomDetail from './hotelRoomDetail'
 
@@ -14,7 +12,7 @@ const THotelRoomInfo: FC = () => {
   const [visible, setVisible] = useState(false);
   const [selectRow, setSelectRow] = useState(Object);
   const [selectKeys, setSelectKeys] = useState([]);
-  const [key, setKey] = useState(String)
+  const [canEdit, setCanEdit] = useState(false)
   // 添加
   const add = () => {
     setVisible(true)
@@ -29,11 +27,13 @@ const THotelRoomInfo: FC = () => {
   // 编辑
   const doEdit = (record) => {
     setSelectRow(record)
+    setCanEdit(true)
     setVisible(true)
   }
   // 查看
   const doView = (record) => {
     setSelectRow(record)
+    setCanEdit(false)
     setVisible(true)
   }
 
@@ -58,15 +58,6 @@ const THotelRoomInfo: FC = () => {
     }
   ]
 
-  const tableColumns = [{
-    title: '酒店ID',
-    dataIndex: 'hotelId',
-  }
-
-    , {
-    title: '酒店名称',
-    dataIndex: 'hotelName',
-  }]
   const columns = [
     {
       title: '酒店ID',
@@ -129,9 +120,7 @@ const THotelRoomInfo: FC = () => {
   ]
   return (
     <>
-      <div><Button className="fr" onClick={add} type="primary">
-        新增
-      </Button>
+      <div>
         <MyTable
           apiFun={tHotelInfoApi.queryByPage}
           columns={columns}
@@ -140,8 +129,8 @@ const THotelRoomInfo: FC = () => {
           searchConfigList={searchConfigList}
           extraProps={{ results: 10 }}
         /></div>
-      <Modal visible={visible} title={"房间详情"} width={"80%"}>
-        <HotelRoomDetail title={"酒店信息"} row={selectRow} onHotelAdd={doBack} />
+      <Modal visible={visible} title={"房间详情"} width={"90%"} onOk={doBack} onCancel={doBack}>
+        <HotelRoomDetail title={"酒店信息"} row={selectRow} onHotelAdd={doBack} canEdit={canEdit}/>
       </Modal>
 
     </>
