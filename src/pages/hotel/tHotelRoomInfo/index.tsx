@@ -38,6 +38,7 @@ const THotelRoomInfo: FC = () => {
   }
 
   const doBack = () => {
+    console.log("doback begin")
     setSelectRow({})
     setVisible(false)
   }
@@ -120,18 +121,15 @@ const THotelRoomInfo: FC = () => {
   ]
   return (
     <>
-      <div>
-        <MyTable
+        {!visible &&(<MyTable
           apiFun={tHotelInfoApi.queryByPage}
           columns={columns}
           ref={tableRef}
           onSelectRow={selectRow}
           searchConfigList={searchConfigList}
           extraProps={{ results: 10 }}
-        /></div>
-      <Modal visible={visible} title={"房间详情"} width={"90%"} onOk={doBack} onCancel={doBack}>
-        <HotelRoomDetail title={"酒店信息"} row={selectRow} onHotelAdd={doBack} canEdit={canEdit}/>
-      </Modal>
+        />)}
+        {visible&&(<HotelRoomDetail title={"酒店信息"} row={selectRow} doBack={doBack} canEdit={canEdit}/>)}
 
     </>
   )

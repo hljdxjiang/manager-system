@@ -47,6 +47,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response): Promise<any> => {
     // todo 应考虑在全局统一化响应数据格式.如果没有,则应移除这个拦截器
+    console.log("response",response)
     const { data } = response
     if(data.code==="401"){
       commonConfirm("登录超时",()=>{
@@ -83,7 +84,7 @@ axios.interceptors.response.use(
 axios.post = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'post',
-    url,
+    url:"http://127.0.0.1:22456/background/"+url,
     data: params
   })
 
@@ -91,7 +92,7 @@ axios.post = (url: string, params?: object): Promise<any> =>
 axios.get = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'get',
-    url,
+    url:"http://127.0.0.1:22456/background/"+url,
     params
   })
 

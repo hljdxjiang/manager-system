@@ -7,7 +7,7 @@ import MyTable from '@/components/common/table';
 import MyModal from '@/components/common/myModal'
 import hotelApi from '@/api/hotel/hotelApi';
 import HotelAddModel from './hotelAddModel';
-import "./hotel.less"
+import "./index.less"
 
 const THotelInfo: FC = () => {
 

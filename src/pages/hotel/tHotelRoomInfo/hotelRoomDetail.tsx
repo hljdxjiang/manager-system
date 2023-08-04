@@ -4,6 +4,8 @@ import React, {
 import { Descriptions, Input, Button, Table } from 'antd'
 import hotelApi from '@/api/hotel/hotelApi'
 import tHotelRoomInfo from '@/api/hotel/tHotelRoomInfo'
+import "./index.less"
+import { response } from 'msw'
 
 /**
  * 封装对话框，展示修改内容
@@ -24,7 +26,7 @@ interface ModalProps {
   columns?: Object[]
   onCancel?: (arg0?: unknown) => void
   onOk?: (arg0?: unknown) => void
-  onHotelAdd?: (arg0?: unknown) => void
+  doBack?: (arg0?: unknown) => void
   canEdit?: boolean
   width?: string | number
   cancelText?: String
@@ -43,30 +45,38 @@ const HotelRoomDetail: FC<ModalProps> = (
       row,
       canEdit,
       title,
-      onHotelAdd
+      doBack,
     } = props
 
-    const doBack = () => {
-      onHotelAdd()
+    const back = () => {
+      console.log("back begin")
+      doBack()
     }
 
     const [key, setKey] = useState(String)
     const [addedRooms, setAddedRooms] = useState([])
     const [newRooms, setNewRooms] = useState([])
-    const [selectRow, setSelectRow] = useState(Object);
 
     useEffect(() => {
-      console.log("key")
-      if(selectRow===undefined){
+      console.log("useEffect key")
+      if(row===undefined){
+        console.log("useEffect key undefined")
         return;
       }
       const res=hotelApi.roomDetail(row)
-      setAddedRooms(res["data"]["addedRooms"])
-      setAddedRooms(res["data"]["newRooms"])
+      res.then((response)=>{
+        setNewRooms(response.newRooms)
+        setAddedRooms(response.addedRooms)
+      }).catch((err)=>{
+
+      })
+      // setAddedRooms(res["data"]["addedRooms"])
+      // setAddedRooms(res["data"]["newRooms"])
     }, [key,row])
 
     const add = (record) => {
-      tHotelRoomInfo.add(record)
+      var newRecord=Object.assign(record,row)
+      tHotelRoomInfo.add(newRecord)
       setKey((Math.random() * 10).toString())
     }
 
@@ -94,17 +104,6 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     var addedHotelColumns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
-      }
-
-      , {
-        title: '酒店ID',
-        dataIndex: 'hotelId',
-      }
-
-
-      , {
         title: '房间ID',
         dataIndex: 'roomId',
       }
@@ -150,18 +149,8 @@ const HotelRoomDetail: FC<ModalProps> = (
       }
     ]
 
-    var newHotelColumns = [{
-      title: 'ID',
-      dataIndex: 'id',
-    }
-
-      , {
-      title: '酒店ID',
-      dataIndex: 'hotelId',
-    }
-
-
-      , {
+    var newHotelColumns = [
+      {
       title: '房间ID',
       dataIndex: 'roomId',
     }
@@ -227,17 +216,20 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     return (
       <>
+        <Button className="btn" onClick={back} size="small">
+            返回列表
+        </Button>
         <Descriptions title={title}>
           {createItems()}
         </Descriptions>
         <span style={{ marginLeft: 8 }}>
           {"已添加列表"}
         </span>
-        <Table columns={addedHotelColumns} dataSource={addedRooms} scroll={{ y: "30%" }}></Table>
+        <Table columns={addedHotelColumns} dataSource={addedRooms} scroll={{ y: "20%" }}></Table>
         <span style={{ marginLeft: 8 }}>
           {"新房间列表"}
         </span>
-        <Table columns={newHotelColumns} dataSource={newRooms} scroll={{ y: "30%" }}></Table>
+        <Table columns={newHotelColumns} dataSource={newRooms} scroll={{ y: "20%" }}></Table>
       </>)
   }
 )
@@ -247,7 +239,7 @@ HotelRoomDetail.defaultProps = {
   canEdit: false,
   onOk: () => { },
   onCancel: () => { },
-  onHotelAdd: () => { },
+  doBack: () => { },
   width: "80%",
   cancelText: "取消",
   okText: "确认",
