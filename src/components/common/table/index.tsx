@@ -109,8 +109,6 @@ const MyTable: FC<TableProps> = forwardRef(
     )
     const { list: tableData = [], total = -1 } = response || {}
 
-    console.log("mytable",response,tableParams)
-
     // 执行搜索操作
     const handleSearch = (val: object): void => {
       setSearchParams(val)
@@ -177,8 +175,8 @@ const MyTable: FC<TableProps> = forwardRef(
         ...initParams,
         ...searchParams,
         ...sortObj,
-        page:pageNum,
-        size:pageSize
+        page: pageNum,
+        size: pageSize
       })
     }
 

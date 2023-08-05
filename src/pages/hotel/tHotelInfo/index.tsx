@@ -1,13 +1,13 @@
 import React, { useRef, FC, useState } from 'react'
-import { Button, Input, } from 'antd'
+import { Button, Input, Modal, } from 'antd'
 import { isAuthorized } from '@/assets/js/publicFunc'
 import tHotelInfoApi from '@/api/hotel/tHotelInfo'
 import { onItemChange } from "@/utils/tableCommon";
 import MyTable from '@/components/common/table';
 import MyModal from '@/components/common/myModal'
 import hotelApi from '@/api/hotel/hotelApi';
-import HotelAddModel from './hotelAddModel';
 import "./index.less"
+import FindHotelModal from './findHotelModal';
 
 const THotelInfo: FC = () => {
 
@@ -253,8 +253,9 @@ const THotelInfo: FC = () => {
       />
       <MyModal title="酒店详情" visible={open && editFlag} onCancel={handCancle} onOk={handleOk} columns={columns}
         canEdit={canEdit} row={selectRow} onChange={onChange} />
-      <HotelAddModel title="添加酒店" visible={open && addFlag} onCancel={handCancle} onOk={handleOk}
-        row={selectRow} />
+      <Modal title="添加酒店" visible={open && addFlag} onCancel={handCancle} onOk={handleOk} width={"90%"}>
+          <FindHotelModal/>
+      </Modal>
     </>
   )
 }
