@@ -3,8 +3,10 @@ import { Button } from 'antd'
 import MyTable from '@/components/common/table'
 import { isAuthorized } from '@/assets/js/publicFunc'
 import { onItemChange } from "@/utils/tableCommon";
-import RoleModel from '../myModal/roleModel'
+import RoleModel from '../../../pages/sys/tSysRole/roleModel'
 import { Key } from 'antd/lib/table/interface'
+import roleApi from '@/api/sys/roleApi';
+import { response } from 'msw';
 
 
 interface PageProps {
@@ -77,7 +79,6 @@ const RolePage: FC<PageProps> = (
         }
         var newColumns = [...columns, opera]
         setTabColumns(newColumns)
-
       }
     }, [columns, showOpeation, permissionPrefix])
 
@@ -89,27 +90,30 @@ const RolePage: FC<PageProps> = (
     }
 
     const queryRoleDetail=(record)=>{
-      if(record!==undefined&&record.roleId!==undefined){
-          //TODO 查询详情
-      }else{
-        setSelectedMenus([]);
-        setSelectedRevokes([]);
-      }
+        roleApi.getRoleDetail(record).then((response)=>{
+          console.log("getRoleDetail response",response)
+          setSelectedMenus(response.menus);
+          setSelectedRevokes(response.revokes);
+        }).catch((err)=>{
+          console.log("getRoleDetail",err)
+        })
     }
     // 编辑
     const doEdit = (record) => {
-        queryRoleDetail(record)
+      queryRoleDetail(record)
       setSelectRow(record)
       setOpen(true)
       setCanEdit(true)
     }
     // 查看
     const doView = (record) => {
+      queryRoleDetail(record)
       setSelectRow(record)
       setOpen(true)
       setCanEdit(false)
     }
     const doDel = (record) => {
+      console.log("doDel ",record)
       delApiFun(record)
       setKey((Math.random() * 10).toString())
     }
@@ -129,16 +133,13 @@ const RolePage: FC<PageProps> = (
     }
 
     const beforeOk = () => {
-      var row = selectRow
-      row.menus=selectedMenus;
-      row.revokes=selectedRevokes;
-      columns.forEach(e => {
-        if (e["editType"] === "edit") {
-          row[e["dataIndex"]] = selectRow[e["dataIndex"]].toHTML();
-        }
-      });
-      console.log(row);
-      return row;
+      var obj={};
+      obj["roleId"]=selectRow.roleId;
+      obj["roleDesc"]=selectRow.roleDesc;
+      obj["roleName"]=selectRow.roleName;
+      obj["menus"]=selectedMenus
+      obj["revokes"]=selectedRevokes
+      return obj;
     }
 
     const onChange = (e, stype?, sid?) => {
@@ -153,24 +154,20 @@ const RolePage: FC<PageProps> = (
       </Button>
     )
 
-    // 新增按钮
-    const BatchDelBtn = () => (
-      <Button className="fr" style={{ marginRight: "10px" }} onClick={delBatch} type="primary">
-        删除
-      </Button>
-    )
-
     const onSelectRow = (rowKeys: string[]) => {
       setSelectKeys(rowKeys);
       console.log(selectKeys)
     }
 
     const handleOk = () => {
-      var row = beforeOk();
-      if (row["id"] === undefined) {
-        addApiFun(row)
-      } else {
-        editApiFun(row)
+      if(canEdit){
+        var row = beforeOk();
+        console.log("handle ok row:",row)
+        roleApi.saveRole(row).then((response)=>{
+          console.log("saveRole success",response)
+        }).catch((err)=>{
+          console.log("saveRole err",err)
+        })
       }
       setSelectRow({});
       setSelectedMenus([]);

@@ -28,7 +28,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   const { pathname } = useLocation()
   const { tabKey: curKey = 'home' } = getKeyName(pathname)
   const [current, setCurrent] = useState(curKey)
-  const { permission = [] } = userInfo
+  const { menus = [] } = userInfo
 
   // 递归逐级向上获取最近一级的菜单，并高亮
   const higherMenuKey = useCallback(
@@ -80,7 +80,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   // 创建可展开的第一级子菜单
   const creatSubMenu = (data: CommonObjectType): JSX.Element => {
     const menuItemList = data.routes.reduce((prev, item: MenuType) => {
-      const isAuthMenu = permission.find((ele) => item.key === ele.code)
+      const isAuthMenu = menus.find((ele) => item.key === ele.path)
       return isAuthMenu && !item.hideInMenu ? [...prev, renderMenu(item)] : prev
     }, [])
 

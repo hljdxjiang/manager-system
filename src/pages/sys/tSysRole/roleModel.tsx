@@ -3,12 +3,14 @@ import React, {
 } from 'react'
 import { Modal, Descriptions, Input, DatePicker, TimePicker, Row, Col, Tree } from 'antd'
 import MySelect from '@/components/common/mySelect'
-import MyUpload from '../myUpload';
-import Editor from '../editor';
+import MyUpload from '../../../components/common/myUpload';
+import Editor from '../../../components/common/editor';
 import type { DataNode } from 'rc-tree/lib/interface';
 import { Key } from 'antd/es/table/interface';
 import { getAllRevokes, getAppMenus } from '@/assets/js/publicFunc';
 import { MenuRoute } from '@/route/types';
+import roleApi from '@/api/sys/roleApi';
+import { response } from 'msw';
 
 /**
  * 封装对话框，展示修改内容
@@ -67,8 +69,6 @@ const RoleModel: FC<ModalProps> = (
       title
     } = props
 
-
-
     const handOk = (): void => {
       onOk()
     }
@@ -76,6 +76,13 @@ const RoleModel: FC<ModalProps> = (
       onCancel();
     }
 
+    const getRoleDetail=(record)=>{
+      roleApi.getRoleDetail(record).then((response)=>{
+        console.log("getRoleDetail response",response)
+      }).catch((err)=>{
+        console.log("getRoleDetail err",err)
+      })
+    }
 
     const handChange = (e, stype?, sid?) => {
       console.log(e,stype,sid)

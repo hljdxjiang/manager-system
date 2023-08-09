@@ -21,41 +21,41 @@ const AuthTest: FC = () => {
       permission:
         permission.length === 5
           ? [
-              {
-                code: 'user:list:view',
-                name: '查看用户列表'
-              },
-              {
-                code: 'user:list:edit',
-                name: '编辑用户列表'
-              },
-              {
-                code: 'auth:test:view',
-                name: '查看权限测试页'
-              }
-            ]
+            {
+              code: 'user:list',
+              name: '查看用户列表'
+            },
+            {
+              code: 'user:role',
+              name: '编辑用户列表'
+            },
+            {
+              code: 'auth:test:view',
+              name: '查看权限测试页'
+            }
+          ]
           : [
-              {
-                code: 'user:list:view',
-                name: '查看用户列表'
-              },
-              {
-                code: 'user:list:add',
-                name: '新增用户列表'
-              },
-              {
-                code: 'user:list:edit',
-                name: '编辑用户列表'
-              },
-              {
-                code: 'role:list:view',
-                name: '查看角色列表'
-              },
-              {
-                code: 'auth:test:view',
-                name: '查看权限测试页'
-              }
-            ]
+            {
+              code: 'user:list',
+              name: '查看用户列表'
+            },
+            {
+              code: 'user:role',
+              name: '编辑用户列表'
+            },
+            {
+              code: 'user:list:edit',
+              name: '编辑用户列表'
+            },
+            {
+              code: 'role:list:view',
+              name: '查看角色列表'
+            },
+            {
+              code: 'auth:test:view',
+              name: '查看权限测试页'
+            }
+          ]
     }
     dispatch(setUserInfo(newInfo))
   }

@@ -24,6 +24,7 @@ interface ModalProps {
   row?: object
   columns?: Object[]
   onCancel?: (arg0?: unknown) => void
+  onView?: (arg0?: unknown) => void
   onOk?: (arg0?: unknown) => void
   doBack?: (arg0?: unknown) => void
   canEdit?: boolean
@@ -44,6 +45,7 @@ const HotelRoomDetail: FC<ModalProps> = (
       row,
       canEdit,
       title,
+      onView,
       doBack,
     } = props
 
@@ -60,7 +62,7 @@ const HotelRoomDetail: FC<ModalProps> = (
     const [price, setPrice] = useState(String)
 
     useEffect(() => {
-      console.log("useEffect key",row,key)
+      console.log("useEffect key", row, key)
       if (row === undefined) {
         console.log("useEffect key undefined")
         return;
@@ -80,11 +82,11 @@ const HotelRoomDetail: FC<ModalProps> = (
       var newRecord = Object.assign(homeRecord, row)
       console.log(newRecord)
       tHotelRoomInfo.add(newRecord)
-      setTimeout(()=>{
+      setTimeout(() => {
         setKey((Math.random() * 10).toString())
         setShow(false)
         setPrice(undefined)
-      },500)
+      }, 500)
     }
     const doAdd = (record) => {
       setHomeRecord(record)
@@ -98,9 +100,9 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     const del = (record) => {
       tHotelRoomInfo.deleteById(record)
-      setTimeout(()=>{
+      setTimeout(() => {
         setKey((Math.random() * 10).toString())
-      },500)
+      }, 500)
     }
 
     var columns = [
@@ -174,6 +176,9 @@ const HotelRoomDetail: FC<ModalProps> = (
         dataIndex: 'operations',
         render: (text, record) => (
           <>
+            <Button className="btn" size="small" onClick={()=>onView(record)}>
+              查看价格
+            </Button>
             {canEdit && (
               <Popconfirm title={"确认删除"} onConfirm={() => del(record)}>
                 <Button className="btn" size="small">
@@ -298,6 +303,7 @@ HotelRoomDetail.defaultProps = {
   onOk: () => { },
   onCancel: () => { },
   doBack: () => { },
+  onView: () => { },
   width: "80%",
   cancelText: "取消",
   okText: "确认",

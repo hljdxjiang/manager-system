@@ -1,28 +1,13 @@
 import {
   HomeOutlined,
-  BankOutlined,
   UserOutlined,
-  AuditOutlined,
-  DashboardOutlined,
-  InfoCircleOutlined,
-  ApiOutlined
+  DashboardOutlined
 } from '@ant-design/icons'
 import Home from '@/pages/home'
 import Workspace from '@/pages/home/Workspace'
-import ErrorPage from '@/pages/public/errorPage'
-
-import UserList from '@/pages/user/list'
-import UserEdit from '@/pages/user/edit'
-
-
-import AuthTest from '@/pages/test'
 import { MenuRoute } from '@/route/types'
-// import React from 'react'
-// import { Icon } from '@iconify/react'
-import { TestApiLoad } from './TempTestRouteComponent'
-import NewUserList from '@/pages/user/newList'
 
-import TUserInfo from "@/pages/user/tUserInfo"
+import NewUserList from '@/pages/user/newList'
 
 import TSysRole from '@/pages/sys/tSysRole'
 
@@ -55,8 +40,34 @@ const preDefinedRoutes: MenuRoute[] = [
     //   React.createElement(Icon, { icon: 'arcticons:syska-smart-home' })
   },
   {
+    path: '/hotel',
+    name: '酒店房间',
+    key: 'hotel',
+    type: 'subMenu',
+    icon: UserOutlined,
+    iconfont: 'icon-xiaoshouzongjian',
+    routes: [
+      {
+        path: '/user/THotelInfo',
+        name: '酒店管理',
+        exact: true,
+        key: 'hotel.hotel',
+        //hideInMenu: true,
+        component: THotelInfo
+      },
+      {
+        path: '/user/THotelRoomInfo',
+        name: '房间管理',
+        exact: true,
+        key: 'hotel.room',
+        //hideInMenu: true,
+        component: THotelRoomInfo
+      },
+    ]
+  },
+  {
     path: '/user',
-    name: '用户管理',
+    name: '用户权限',
     key: 'user',
     type: 'subMenu',
     icon: UserOutlined,
@@ -66,32 +77,16 @@ const preDefinedRoutes: MenuRoute[] = [
         path: '/user/list',
         name: '用户列表',
         exact: true,
-        key: 'user:list:edit',
+        key: 'user:list',
         component: NewUserList
       },
       {
-        path: '/sys/list/TSysRole',
+        path: '/user/TSysRole',
         name: '角色权限',
         exact: true,
-        key: 'user:list:view',
+        key: 'user:role',
         //hideInMenu: true,
         component: TSysRole
-      },
-      {
-        path: '/sys/list/THotelInfo',
-        name: '酒店管理',
-        exact: true,
-        key: 'auth:test:view',
-        //hideInMenu: true,
-        component: THotelInfo
-      },
-      {
-        path: '/sys/list/THotelRoomInfo',
-        name: '房间管理',
-        exact: true,
-        key: 'user:list:edit',
-        //hideInMenu: true,
-        component: THotelRoomInfo
       }
     ]
   }

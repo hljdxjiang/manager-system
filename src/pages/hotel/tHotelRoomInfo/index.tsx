@@ -4,15 +4,19 @@ import { isAuthorized } from '@/assets/js/publicFunc'
 import tHotelInfoApi from '@/api/hotel/tHotelInfo'
 import MyTable from '@/components/common/table';
 import HotelRoomDetail from './hotelRoomDetail'
+import HotelRoomPrice from './hotelRoomPrice';
 
 const THotelRoomInfo: FC = () => {
 
   const permissionPrefix = "user:list";
   const tableRef: RefType = useRef()
   const [visible, setVisible] = useState(false);
+  const [showPrice, setShowPrice] = useState(false);
   const [selectRow, setSelectRow] = useState(Object);
   const [selectKeys, setSelectKeys] = useState([]);
   const [canEdit, setCanEdit] = useState(false)
+  const [roomRow, setRoomRow] = useState(Object);
+
   // 添加
   const add = () => {
     setVisible(true)
@@ -37,10 +41,24 @@ const THotelRoomInfo: FC = () => {
     setVisible(true)
   }
 
-  const doBack = () => {
+  const viewPrice=(record)=>{
+    console.log("viewPrice",record)
+    setRoomRow(record);
+    setVisible(true)
+    setShowPrice(true)
+  }
+
+  const doBack = (type) => {
+    console.log(type)
+    if(type===undefined||type==="hotel"){
+      setSelectRow({})
+      setVisible(false)
+      setShowPrice(false)
+    }else if(type==="roomList"){
+      setVisible(true)
+      setShowPrice(false)
+    }
     console.log("doback begin")
-    setSelectRow({})
-    setVisible(false)
   }
 
   // 搜索栏配置项
@@ -121,7 +139,8 @@ const THotelRoomInfo: FC = () => {
   ]
   return (
     <>
-        {!visible &&(<MyTable
+      {!visible && (
+        <MyTable
           apiFun={tHotelInfoApi.queryByPage}
           columns={columns}
           ref={tableRef}
@@ -129,7 +148,8 @@ const THotelRoomInfo: FC = () => {
           searchConfigList={searchConfigList}
           extraProps={{ results: 10 }}
         />)}
-        {visible&&(<HotelRoomDetail title={"酒店信息"} row={selectRow} doBack={doBack} canEdit={canEdit}/>)}
+      {visible && !showPrice && (<HotelRoomDetail title={"酒店信息"} row={selectRow} doBack={doBack} onView={viewPrice} canEdit={canEdit} />)}
+      {visible && showPrice && (<HotelRoomPrice title={"价格历史"} row={roomRow} doBack={()=>{doBack("roomList")}} canEdit={canEdit} />)}
 
     </>
   )

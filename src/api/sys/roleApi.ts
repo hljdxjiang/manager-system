@@ -1,22 +1,13 @@
 import $axios from '@/utils/axios'
-import { Menu, Revoke } from '@/app_models/user'
 
 export default {
-  // 获取所有菜单
-  getAllMenus(params?: object): Promise<Menu> {
-    return $axios.post('/roleDetail/getAllMenus', params)
+  getRoleDetail(params?: object): Promise<any> {
+    return $axios.post('roleDetail/getRoleDetail', params)
   },
-
-  getAllRevoke(params?: object): Promise<Revoke> {
-    return $axios.post('/roleDetail/getAllRevoke', params)
+  saveRole(params?: object): Promise<any> {
+    return $axios.post('roleDetail/saveRole', params)
   },
-
-
-  getRoleMenus(params?: object): Promise<Menu> {
-    return $axios.post('/roleDetail/getAllMenus', params)
-  },
-
-  getRoleRevokes(params?: object): Promise<Revoke> {
-    return $axios.post('/roleDetail/getAllRevoke', params)
+  deleteRole(params?: object): Promise<any> {
+    return $axios.post('roleDetail/deleteRole', params)
   }
 }
