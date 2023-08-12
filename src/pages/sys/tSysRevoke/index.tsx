@@ -86,7 +86,7 @@ const TSysRevoke: FC = () => {
   return (
     <>
       <MyPage
-        apiFun={tSysRevokeApi.queryByPage}
+        apiFun={tSysRevokeApi.query}
         columns={columns}
         permissionPrefix={"user:list"}
         addApiFun={tSysRevokeApi.add}

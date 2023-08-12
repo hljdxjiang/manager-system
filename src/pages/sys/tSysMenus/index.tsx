@@ -141,7 +141,7 @@ const TSysMenus: FC = () => {
   return (
     <>
       <MyPage
-        apiFun={tSysMenusApi.queryByPage}
+        apiFun={tSysMenusApi.query}
         columns={columns}
         permissionPrefix={"user:list"}
         addApiFun={tSysMenusApi.add}

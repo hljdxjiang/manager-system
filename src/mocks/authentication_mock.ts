@@ -6,22 +6,47 @@ export const userRes: UserInfo[] = [
     username: 'admin',
     password: '123456',
     token: 'asdfghjkl',
-    menus: [],
+    menus: [
+      {
+        path: 'user',
+        desc: '查看用户列表'
+      },
+      {
+        path: 'user:list',
+        desc: '查看用户列表'
+      },
+      {
+        path: 'user:role',
+        desc: '新增用户列表'
+      },
+      {
+        path: 'hotel.room',
+        desc: '编辑用户列表'
+      },
+      {
+        path: 'hotel.hotel',
+        desc: '查看角色列表'
+      },
+      {
+        path: 'auth:test:view',
+        desc: '查看权限测试页'
+      }
+    ],
     permission: [
       {
-        code: 'user:list:view',
+        code: 'user:list',
         name: '查看用户列表'
       },
       {
-        code: 'user:list:add',
+        code: 'user:role',
         name: '新增用户列表'
       },
       {
-        code: 'user:list:edit',
+        code: 'hotel.room',
         name: '编辑用户列表'
       },
       {
-        code: 'role:list:view',
+        code: 'hotel.hotel',
         name: '查看角色列表'
       },
       {

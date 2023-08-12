@@ -84,7 +84,7 @@ axios.interceptors.response.use(
 axios.post = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'post',
-    url:"http://127.0.0.1:22456/background/"+url,
+    url:"/background/"+url,
     data: params
   })
 
@@ -92,7 +92,7 @@ axios.post = (url: string, params?: object): Promise<any> =>
 axios.get = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'get',
-    url:"http://127.0.0.1:22456/background/"+url,
+    url:"/background/"+url,
     params
   })
 

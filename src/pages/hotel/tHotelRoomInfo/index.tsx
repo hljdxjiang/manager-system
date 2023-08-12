@@ -141,7 +141,7 @@ const THotelRoomInfo: FC = () => {
     <>
       {!visible && (
         <MyTable
-          apiFun={tHotelInfoApi.queryByPage}
+          apiFun={tHotelInfoApi.query}
           columns={columns}
           ref={tableRef}
           onSelectRow={selectRow}

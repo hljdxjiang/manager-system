@@ -12,8 +12,8 @@ import styles from './Menu.module.less'
 const { Header } = Layout
 
 const { SubMenu } = Menu
-const menus = getAppMenus()
-const flatMenu = flattenRoutes(menus)
+const Allmenus = getAppMenus()
+const flatMenu = flattenRoutes(Allmenus)
 
 type MenuType = CommonObjectType<string>
 
@@ -81,7 +81,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   const creatSubMenu = (data: CommonObjectType): JSX.Element => {
     const menuItemList = data.routes.reduce((prev, item: MenuType) => {
       const isAuthMenu = menus.find((ele) => item.key === ele.path)
-      return isAuthMenu && !item.hideInMenu ? [...prev, renderMenu(item)] : prev
+      return  !item.hideInMenu ? [...prev, renderMenu(item)] : prev
     }, [])
 
     return menuItemList.length > 0 ? (
@@ -124,7 +124,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
             selectedKeys={[current]}
             theme={theme === 'default' ? 'light' : 'dark'}
           >
-            {renderMenuMap(menus)}
+            {renderMenuMap(Allmenus)}
           </Menu>
         </div>
       </Header>
@@ -149,7 +149,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
         selectedKeys={[current]}
         theme={theme === 'default' ? 'light' : 'dark'}
       >
-        {renderMenuMap(menus)}
+        {renderMenuMap(Allmenus)}
       </Menu>
     </Layout.Sider>
   )

@@ -12,5 +12,5 @@ export default {
 
   roomDetail(params?: object): Promise<CommonObjectType<any>> {
     return request.post('hotelInfo/roomDetail', params)
-  },
+  }
 }

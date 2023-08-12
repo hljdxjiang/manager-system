@@ -1,10 +1,12 @@
 import React, {
   FC, useEffect, useState
 } from 'react'
-import { Descriptions, Input, Button, Table, Modal } from 'antd'
+import { Descriptions, Input, Button, Table, Modal, Row, Col } from 'antd'
 import "./index.less"
 import tHotelRoomPrice from '@/api/hotel/tHotelRoomPrice'
 import { TablePaginationConfig } from 'antd/lib/table'
+import { onItemChange } from '@/utils/tableCommon'
+import tHotelRoomPriceApi from '@/api/hotel/tHotelRoomPrice';
 
 /**
  * 封装对话框，展示修改内容
@@ -35,8 +37,8 @@ interface ModalProps {
   title?: String
 }
 
-interface TableParam{
-  pagination?:TablePaginationConfig
+interface TableParam {
+  pagination?: TablePaginationConfig
 }
 
 const HotelRoomPrice: FC<ModalProps> = (
@@ -58,27 +60,25 @@ const HotelRoomPrice: FC<ModalProps> = (
       doBack()
     }
     const [priceList, setPriceList] = useState([])
-    const [pageSize,setPageSize] =useState(20)
-    const [pageNum,setPageNum] =useState(1)
-    const [total,setTotal] =useState(0)
-    const [view,setView] =useState(false)
-    const [price,setPrice] =useState(String)
-    const [key,setKey] =useState(String)
-    const [priceRecord,setPriceRecord] =useState(Object)
+    const [pageSize, setPageSize] = useState(20)
+    const [pageNum, setPageNum] = useState(1)
+    const [total, setTotal] = useState(0)
+    const [view, setView] = useState(false)
+    const [key, setKey] = useState(String)
+    const [priceRecord, setPriceRecord] = useState(Object)
 
 
 
     useEffect(() => {
-      const obj={}
-      obj["roomId"]=row["roomId"];
-      obj["pageSize"]=pageSize;
-      obj["pageNum"]=pageNum;
-      console.log("begin useEffect",obj)
-      const res = tHotelRoomPrice.queryByPage(obj)
-      res.then((response) => {
-        const total=response.total;
+      const obj = {}
+      obj["roomId"] = row["roomId"];
+      obj["pageSize"] = pageSize;
+      obj["pageNum"] = pageNum;
+      console.log("begin useEffect", obj)
+      tHotelRoomPrice.queryByPage(obj).then((response) => {
+        const total = response.total;
         setTotal(Number(total));
-        const list=response.list;
+        const list = response.list;
         setPriceList(list)
 
       }).catch((err) => {
@@ -86,9 +86,9 @@ const HotelRoomPrice: FC<ModalProps> = (
       })
       // setAddedRooms(res["data"]["addedRooms"])
       // setAddedRooms(res["data"]["newRooms"])
-    }, [pageSize,pageNum])
+    }, [pageSize, pageNum, key])
 
-    var desColumns=[
+    var desColumns = [
       {
         title: '房间ID',
         key: "roomId",
@@ -104,95 +104,74 @@ const HotelRoomPrice: FC<ModalProps> = (
 
     var columns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
-      }
-
-      , {
-        title: '酒店ID',
-        dataIndex: 'hotelId',
-      }
-
-
-      , {
-        title: '房间ID',
-        dataIndex: 'roomId',
-      }
-
-      , {
-        title: '产品价格ID',
-        dataIndex: 'ratePlanid',
-      }
-
-      , {
         title: '支付方式0预付1现付',
         dataIndex: 'paymentType',
+        key: 'paymentType',
       }
 
       , {
         title: '平均价格',
         dataIndex: 'averageprice',
+        key: 'averageprice',
       }
 
       , {
         title: '入住日期',
         dataIndex: 'date',
+        key: 'date',
       }
 
       , {
-        title: '入住价格',
+        title: '官方报价',
         dataIndex: 'price',
+        key: 'price',
       }
 
       , {
         title: '库存',
         dataIndex: 'stock',
+        key: 'stock',
       }
 
       , {
         title: '确认方式:0不支持即时确认1支持即时确认',
         dataIndex: 'confirmType',
+        key: 'confirmType',
       }
 
       , {
-        title: '早餐规则',
-        dataIndex: 'breakfast',
-      }
-
-      , {
-        title: '上次调整时的价格',
+        title: '上次上架价格',
         dataIndex: 'lastJustPrice',
+        key: 'lastJustPrice',
       }
-
       , {
         title: '当前上架价格',
         dataIndex: 'myPrice',
+        key: 'myPrice',
+      }, {
+        title: '协议价格',
+        dataIndex: 'agreementPrice',
+        key: 'agreementPrice',
+      }, {
+        title: '官方价格',
+        dataIndex: 'price',
+        key: 'price',
       }
-
       , {
-        title: '价格上浮提醒差额',
-        dataIndex: 'confirmUpPrice',
-      }
-
-      , {
-        title: '价格下浮提醒差额',
-        dataIndex: 'confirmDownPrice',
-      }
-
-      , {
-        title: '状态0正常9下架',
+        title: '状态',
         dataIndex: 'status',
-      },{ 
+        key: 'status',
+      }, {
 
-        title: '操作', 
-
+        title: '操作',
+        key: 'operations',
         dataIndex: 'operations',
         render: (text, record) => (
           <>
             {canEdit &&
-             <Button className="btn" size="small" onClick={doEdit}>
-             修改
-           </Button>
+              <Button className="btn" size="small" onClick={() => doEdit(record)}>
+                修改
+              </Button>
             }
           </>
         )
@@ -221,31 +200,37 @@ const HotelRoomPrice: FC<ModalProps> = (
     }
 
     const createInput = (item) => {
-      console.log("createInput",row)
+      console.log("createInput", row)
       return <Input placeholder={item["title"]} id={item["dataIndex"]} allowClear value={row[item["dataIndex"]]} disabled={true} />
     }
 
-    const doOk=()=>{
-      setPrice("");
+    const doOk = () => {
+      console.log("doOk", priceRecord)
       setView(false)
-      setTimeout(()=>{
-        setKey((Math.random() * 10).toString())
+      tHotelRoomPriceApi.edit(priceRecord).then((res) => {
+        console.log(res)
+        setTimeout(() => {
+          setKey((Math.random() * 10).toString())
+        })
+      }).catch((err) => {
+        console.log(err)
       })
     }
-    const doCancel=()=>{
-      setPrice("");
+    const doCancel = () => {
       setPriceRecord({})
       setView(false)
     }
 
-    const doEdit=(record)=>{
+    const doEdit = (record) => {
       console.log(record)
       setPriceRecord(record)
       setView(true)
     }
 
-    const onPriceChange = (e, stype?, sid?) => {
-      setPrice(e.target.value)
+    const onChange = (e, stype?, sid?) => {
+      var newRow = { ...priceRecord, [e.target.id]: e.target.value }
+      console.log("onChange", newRow)
+      setPriceRecord(newRow)
     }
     return (
       <>
@@ -256,16 +241,31 @@ const HotelRoomPrice: FC<ModalProps> = (
           {createItems()}
         </Descriptions>
         <Table columns={columns} pagination={{
-            total,
-            pageSize: pageSize,
-            current: pageNum,
-            showQuickJumper: true,
-            showSizeChanger: true,
-            pageSizeOptions: ['10', '20', '50', '100'],
-            showTotal: (all) => `共 ${all} 条`
-          }} dataSource={priceList} scroll={{ y: "20%" }}></Table>
-        <Modal title={"输入房间价格"} onOk={doOk} onCancel={doCancel} visible={view}>
-          <Input placeholder={"输入房间上架金额"} value={price} allowClear onChange={onPriceChange} />
+          total,
+          pageSize: pageSize,
+          current: pageNum,
+          showQuickJumper: true,
+          showSizeChanger: true,
+          pageSizeOptions: ['10', '20', '50', '100'],
+          showTotal: (all) => `共 ${all} 条`
+        }} dataSource={priceList} scroll={{ y: "20%" }} key={key}></Table>
+        <Modal title={"输入房间价格"} onOk={doOk} onCancel={doCancel} visible={view} width={"60%"}>
+          <Row gutter={24}>
+            <Col span={4}>
+              <span>上架金额</span>
+            </Col>
+            <Col span={8}>
+              <Input placeholder={"输入房间上架金额"} id="myPrice" value={priceRecord["myPrice"]}
+                allowClear onChange={onChange} />
+            </Col>
+            <Col span={4}>
+              <span>协议金额</span>
+            </Col>
+            <Col span={8}>
+              <Input placeholder={"请输入协议价格"} id="agreementPrice" value={priceRecord["agreementPrice"]}
+                allowClear onChange={onChange} />
+            </Col>
+          </Row>
         </Modal>
       </>)
   }

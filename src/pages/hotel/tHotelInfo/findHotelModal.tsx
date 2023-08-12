@@ -2,7 +2,7 @@ import React, {
   FC, useRef, useState
 } from 'react'
 import {AlignType} from "rc-table/lib/interface"
-import { Modal, Input, Button, Table } from 'antd'
+import { Modal, Input, Button, Table, List, message } from 'antd';
 import hotelApi from '@/api/hotel/hotelApi'
 import tHotelInfo from '@/api/hotel/tHotelInfo'
 import { onItemChange } from '@/utils/tableCommon'
@@ -38,49 +38,54 @@ const FindHotelModal: FC<ModalProps> = (
     } = props
 
     const [key, setKey] = useState(String)
-    const tableRef: RefType = useRef()
     const [param, setParam] = useState(Object);
     const [data, SetData] = useState([]);
 
     const columns = [
       {
         title: '酒店ID',
-        dataIndex: 'hotelId',
+        key:'hotelID',
+        dataIndex: 'hotelID',
       }
 
       , {
         title: '酒店名称',
+        key:'hotelName',
         dataIndex: 'hotelName',
       }
 
       , {
         title: '城市名称',
+        key:'cityName',
         dataIndex: 'cityName',
       }
 
       , {
         title: '地址',
+        key:'address',
         dataIndex: 'address',
+
+      }, {
+        title: '价格',
+        key:'startingPrice',
+        dataIndex: 'startingPrice',
 
       }
 
       , {
         title: '酒店星级',
+        key:'hotelStar',
         dataIndex: 'hotelStar',
-      }
-
-      , {
-        title: '酒店主图',
-        dataIndex: 'mainImg',
       },{
         title: '操作',
+        key:'operations',
         dataIndex: 'operations',
         align: "center" as AlignType,
         render: (text, record) => (
           <>
             {record["addedFlag"] === "N" && (
               <Button className="btn" onClick={() => { doAdd(record) }} size="small">
-                编辑
+                添加
               </Button>
             )}
             {record["addedFlag"] === "Y" && (
@@ -92,20 +97,38 @@ const FindHotelModal: FC<ModalProps> = (
     ]
 
     const doSearch = () => {
+      if(param.queryText===undefined){
+        message.error("酒店所在城市必输")
+        return;
+      }
       const res = hotelApi.findHotel(param)
       res.then((response) => {
-        SetData(response.data)
+        if(response.list.length){
+          SetData(response.list)
+        }else{
+          message.info("没有符合条件的数据")
+        }
       }).catch((err) => {
+        message.error(err)
       })
-      hotelApi.findHotel()
     }
 
     const doAdd=(record)=>{
-      tHotelInfo.add(record);
+      record.hotelId=record.hotelID
+      record.mainImg=record.mainImage
+      record.currentPrice=record.startingPrice
+      tHotelInfo.add(record).then((response) => {
+        console.log("doSearch",response)
+        setTimeout(()=>{
+          doSearch()
+        },500)
+      }).catch((err) => {
+      });
     }
 
     const onChange = (e, stype?, sid?) => {
-      var newRow = onItemChange(param, e, stype, sid);
+      var newRow={ ...param, [e.target.id]: e.target.value }
+      console.log("onChange",newRow)
       setParam(newRow)
     }
 
@@ -113,15 +136,15 @@ const FindHotelModal: FC<ModalProps> = (
     return (
       <div>
         <span>
-        <Input placeholder={"请输入所在城市"} id={"city"} allowClear value={param["city"]} onChange={onChange}
+        <Input placeholder={"请输入所在城市"} id={"cityName"} allowClear value={param["cityName"]} onChange={onChange}
         style={{ width: "30%" }}/>
-        <Input placeholder={"请输入酒店名称"} id={"hotelName"} allowClear value={param["hotelName"]} onChange={onChange}
+        <Input placeholder={"请输入酒店名称"} id={"queryText"} allowClear value={param["queryText"]} onChange={onChange}
         style={{ width: "50%" }}/>
         <Button className="fr" onClick={doSearch} type="primary">
           搜索
         </Button>
         </span>
-        <Table dataSource={data} columns={columns} key={key}></Table>
+        <Table dataSource={data} columns={columns} bordered scroll={{ y: 400 }} key={key}></Table>
       </div >
     )
   }

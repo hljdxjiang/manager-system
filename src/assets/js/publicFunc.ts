@@ -220,6 +220,7 @@ export const isAuthorized = (val: string): boolean => {
 }
 
 export const isRouter = (val: String): boolean => {
+  return true;
   const menus = getMenus();
   return !!menus.find((_) => _.key === val)
 }

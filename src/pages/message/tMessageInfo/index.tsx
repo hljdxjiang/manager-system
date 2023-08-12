@@ -82,78 +82,78 @@ const TMessageInfo: FC = () => {
                                         title: 'ID',
             dataIndex: 'id',
             }
-            
-                    
+
+
                                                 ,{
                         title: '酒店名称',
             dataIndex: 'hotelName',
             }
-            
+
                                                 ,{
                         title: '房间名称',
             dataIndex: 'roomName',
             }
-            
+
                                                 ,{
                         title: '房间面积',
             dataIndex: 'useableArea',
             }
-            
+
                                                 ,{
                         title: '楼层',
             dataIndex: 'floor',
             }
-            
+
                                                 ,{
                         title: '上次调整时的价格',
             dataIndex: 'lastJustPrice',
             }
-            
+
                                                 ,{
                         title: '房间容量',
             dataIndex: 'capacity',
             }
-            
+
                                                 ,{
                         title: '当前上架价格',
             dataIndex: 'myPrice',
             }
-            
+
                                                 ,{
                         title: '床型描述',
             dataIndex: 'bedType',
             }
-            
+
                                                 ,{
                         title: '状态0未读1已读',
             dataIndex: 'status',
             }
-            
+
                                                 ,{
                         title: '价格变动',
             dataIndex: 'priceDiff',
             }
-            
+
                                                 ,{
                         title: '当前报价',
             dataIndex: 'price',
             }
-            
+
                                                 ,{
                         title: '创建时间',
             dataIndex: 'createTime',
             }
-            
+
                                                 ,{
                         title: '最后修改时间',
             dataIndex: 'lastModifiedTime',
             }
-            
+
             ]
     return (
         <>
             <MyPage
-                apiFun={tMessageInfoApi.queryByPage}
+                apiFun={tMessageInfoApi.query}
                 columns={columns}
                 permissionPrefix={"user:list"}
                 addApiFun={tMessageInfoApi.add}

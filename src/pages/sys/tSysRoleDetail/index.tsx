@@ -46,37 +46,37 @@ const TSysRoleDetail: FC = () => {
                                         title: '',
             dataIndex: 'id',
             }
-            
+
                                                 ,{
                         title: '角色ID',
             dataIndex: 'roleid',
             }
-            
+
                                                 ,{
                         title: '权限路径',
             dataIndex: 'path',
             }
-            
+
                                                 ,{
                         title: '权限描述',
             dataIndex: 'title',
             }
-            
+
                                                 ,{
                         title: '权限类型',
             dataIndex: 'type',
             }
-            
+
                                                 ,{
                         title: '父ID',
             dataIndex: 'parentPath',
             }
-            
+
             ]
     return (
         <>
             <MyPage
-                apiFun={tSysRoleDetailApi.queryByPage}
+                apiFun={tSysRoleDetailApi.query}
                 columns={columns}
                 permissionPrefix={"user:list"}
                 addApiFun={tSysRoleDetailApi.add}

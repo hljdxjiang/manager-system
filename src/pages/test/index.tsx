@@ -30,7 +30,7 @@ const AuthTest: FC = () => {
               name: '编辑用户列表'
             },
             {
-              code: 'auth:test:view',
+              code: 'hotel.room',
               name: '查看权限测试页'
             }
           ]
@@ -44,11 +44,11 @@ const AuthTest: FC = () => {
               name: '编辑用户列表'
             },
             {
-              code: 'user:list:edit',
+              code: 'hotel.hotel',
               name: '编辑用户列表'
             },
             {
-              code: 'role:list:view',
+              code: 'hotel.room',
               name: '查看角色列表'
             },
             {

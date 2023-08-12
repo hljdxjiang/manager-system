@@ -44,10 +44,10 @@ const MyPage: FC<PageProps> = (
     const [tableColumns, setTabColumns] = useState([])
 
     useEffect(() => {
-      var tableColums=[];
+      var tableColums = [];
       columns.forEach(element => {
-        console.log("columns",element)
-        if(element["tableShow"]===undefined||element["tableShow"]===true){
+        console.log("columns", element)
+        if (element["tableShow"] === undefined || element["tableShow"] === true) {
           tableColums.push(element);
         }
       });
@@ -150,10 +150,12 @@ const MyPage: FC<PageProps> = (
       } else {
         editApiFun(row)
       }
-      setSelectRow({});
-      setCanEdit(false)
-      setOpen(false)
-      setKey((Math.random() * 10).toString())
+      setTimeout(() => {
+        setSelectRow({});
+        setCanEdit(false)
+        setOpen(false)
+        setKey((Math.random() * 10).toString())
+      }, 500)
     }
 
     const handCancle = () => {

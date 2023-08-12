@@ -164,7 +164,7 @@ const TUserInfo: FC = () => {
   return (
     <>
       <MyPage
-        apiFun={tUserInfoApi.queryByPage}
+        apiFun={tUserInfoApi.query}
         columns={columns}
         permissionPrefix={"user:list"}
         addApiFun={tUserInfoApi.add}

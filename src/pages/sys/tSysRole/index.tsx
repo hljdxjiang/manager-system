@@ -41,7 +41,7 @@ const TSysRole: FC = () => {
   return (
     <>
       <RolePage
-      apiFun={tSysRoleApi.queryByPage}
+      apiFun={tSysRoleApi.query}
       columns={columns}
       permissionPrefix={"user:list"}
       addApiFun={roleApi.saveRole}

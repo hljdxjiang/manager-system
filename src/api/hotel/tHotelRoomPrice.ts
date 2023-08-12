@@ -16,5 +16,9 @@ export default {
     // 修改数据
     deleteById(params?: object): Promise<CommonObjectType<any>> {
         return request.post('tHotelRoomPrice/delete', params)
+    },
+    // 模糊查询
+    query(params?: object): Promise<CommonObjectType<any>> {
+      return request.post('tHotelRoomPrice/fuzzyQuery', params)
     }
 }

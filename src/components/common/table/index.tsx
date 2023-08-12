@@ -158,6 +158,11 @@ const MyTable: FC<TableProps> = forwardRef(
     const tableSize = small ? 'small' : 'middle'
     const pagationSize = small ? 'small' : 'default'
 
+
+    const showColumns = columns.filter((item) => {
+      return item["tableShow"] !== false
+    })
+
     // 分页、筛选、排序变化时触发
     const onTableChange = (
       pagination: CommonObjectType,
@@ -175,8 +180,8 @@ const MyTable: FC<TableProps> = forwardRef(
         ...initParams,
         ...searchParams,
         ...sortObj,
-        page: pageNum,
-        size: pageSize
+        pageNum: pageNum,
+        pageSize: pageSize
       })
     }
 
@@ -227,7 +232,7 @@ const MyTable: FC<TableProps> = forwardRef(
           rowKey={rowKey}
           loading={loading}
           dataSource={tableData}
-          columns={columns}
+          columns={showColumns}
           onChange={onTableChange}
           size={tableSize}
           showHeader={showHeader}
@@ -238,7 +243,7 @@ const MyTable: FC<TableProps> = forwardRef(
             current: tableParams.pageNum,
             showQuickJumper: true,
             showSizeChanger: true,
-            pageSizeOptions: ['10', '20', '500', '100', ...extraPagation],
+            pageSizeOptions: ['10', '20', '50', '100', ...extraPagation],
             showTotal: (all) => `共 ${all} 条`
           }}
         />

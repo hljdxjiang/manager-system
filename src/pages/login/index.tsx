@@ -31,34 +31,34 @@ const LoginForm: FC = () => {
   // 触发登录方法
   const onFinish = async (values: CommonObjectType<string>) => {
     // 开发环境 mock
-    if (process.env.NODE_ENV === 'development') {
-      const { username, password } = values
-      try {
-        const result = await session.login({ username, password })
-        //TODO 以下代码为测试代码，需要从登录接口返回用户具有的所有菜单及权限
-        result.permission.forEach(element => {
-          result.menus = [...result.menus, { key: element.code, desc: element.name }]
-        });
-        dispatch(setUserInfo(result))
-        history.push('/')
-      } catch (e) {
-        const response = (e as any)?.response // Axios异常
-        message.error(
-          response
-            ? `发生错误:${response.data}`
-            : `认证服务异常,请联系管理员:${e}`
-        )
-      }
-      return
-    }
+
+    const { username, password } = values
+
+    await session.login({ userId:username, passWD:password }).then((res) => {
+      const result = userRes[0]
+      //TODO 以下代码为测试代码，需要从登录接口返回用户具有的所有菜单及权限
+      // result.permission.forEach(element => {
+      //   result.menus = [...result.menus, { key: element.code, desc: element.name }]
+      // });
+      dispatch(setUserInfo(result))
+      history.push('/')
+    }).catch((e)=>{
+      const response = (e as any)?.response // Axios异常
+      message.error(
+        response
+          ? `发生错误:${response.data}`
+          : `认证服务异常,请联系管理员:${e}`
+      )
+    })
+    // //TODO 以下代码为测试代码，需要从登录接口返回用户具有的所有菜单及权限
+    // result.permission.forEach(element => {
+    //   result.menus = [...result.menus, { key: element.code, desc: element.name }]
+    // });
+    // dispatch(setUserInfo(result))
+    // history.push('/')
     // 线上环境直接返回信息
-    const result = userRes[0]
-    //TODO 以下代码为测试代码，需要从登录接口返回用户具有的所有菜单及权限
-    result.permission.forEach(element => {
-      result.menus = [...result.menus, { key: element.code, desc: element.name }]
-    });
-    dispatch(setUserInfo(result))
-    history.push('/')
+    return
+
   }
 
   const FormView = (

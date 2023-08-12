@@ -1,20 +1,19 @@
 import React, { useRef, FC, useState } from 'react'
 import { Button, Input, Modal, } from 'antd'
-import { isAuthorized } from '@/assets/js/publicFunc'
+import { isAuthorized, previewImg } from '@/assets/js/publicFunc'
 import tHotelInfoApi from '@/api/hotel/tHotelInfo'
 import { onItemChange } from "@/utils/tableCommon";
 import MyTable from '@/components/common/table';
 import MyModal from '@/components/common/myModal'
-import hotelApi from '@/api/hotel/hotelApi';
 import "./index.less"
 import FindHotelModal from './findHotelModal';
+import { response } from 'msw';
 
 const THotelInfo: FC = () => {
 
   const permissionPrefix = "user:list";
   const tableRef: RefType = useRef()
   const [open, setOpen] = useState(false);
-  const [editFlag, setEditFlag] = useState(false);
   const [addFlag, setAddFlag] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [selectRow, setSelectRow] = useState(Object);
@@ -22,8 +21,7 @@ const THotelInfo: FC = () => {
   const [key, setKey] = useState(String)
   // 添加
   const add = () => {
-    setOpen(true)
-    setEditFlag(false)
+    setOpen(false)
     setAddFlag(true)
     setCanEdit(true)
     setSelectRow({});
@@ -46,16 +44,39 @@ const THotelInfo: FC = () => {
     </Button>
   )
 
-  const onSelectRow = (rowKeys: string[]) => {
-    setSelectKeys(rowKeys);
-    console.log(selectKeys)
+  const getStatus = (status) => {
+    switch (status) {
+      case 0:
+        return "正常";
+        break;
+      case 9:
+        return "下架"
+        break;
+      default:
+        return status
+    }
+
   }
 
-  const handleOk = () => {
+  const handleOk = (typ) => {
     var row = selectRow;
-    row["edit"] = selectRow["edit"].toHTML();
+    tHotelInfoApi.edit(row).then((response) => {
+      console.log(response)
+      setTimeout(() => {
+        setSelectRow({});
+        setCanEdit(false)
+        setOpen(false)
+        setKey((Math.random() * 10).toString())
+      }, 500)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  const handleAddOk=()=>{
     setSelectRow({});
     setCanEdit(false)
+    setAddFlag(false)
     setOpen(false)
     setKey((Math.random() * 10).toString())
   }
@@ -63,13 +84,12 @@ const THotelInfo: FC = () => {
   const handCancle = () => {
     setSelectRow({});
     setCanEdit(false)
+    setAddFlag(false)
     setOpen(false)
   }
 
-  const onHotelAdd=(record)=>{
-    setAddFlag(false);
-    setEditFlag(true);
-    setSelectRow(record)
+  const doViewImg = (url) => {
+    previewImg(<img src={url} width="100%" alt="" />)
   }
 
   const onChange = (e, stype?, sid?) => {
@@ -114,12 +134,12 @@ const THotelInfo: FC = () => {
       rules: [],
       initialValue: ''
     }
-    , {
-      key: 'userId',
-      slot: <Input placeholder="管理员ID" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
+    // , {
+    //   key: 'userId',
+    //   slot: <Input placeholder="管理员ID" allowClear />,
+    //   rules: [],
+    //   initialValue: ''
+    // }
     , {
       key: 'status',
       slot: <Input placeholder="状态0正常9下架" allowClear />,
@@ -129,95 +149,108 @@ const THotelInfo: FC = () => {
   ]
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      tableShow: false,
-    }
-
-    , {
       title: '酒店ID',
+      key: 'hotelId',
       dataIndex: 'hotelId',
     }
 
     , {
       title: '酒店名称',
+      key: 'hotelName',
       dataIndex: 'hotelName',
     }
 
     , {
       title: '城市名称',
+      key: 'cityName',
+      width: '120',
       dataIndex: 'cityName',
     }
 
     , {
       title: '地址',
       dataIndex: 'address',
+      width: '120',
+      key: 'address',
       tableShow: false,
     }
 
     , {
       title: '酒店星级',
+      key: 'id',
+      width: '120',
       dataIndex: 'hotelStar',
+      tableShow: false,
     }
-
-
     , {
       title: '酒店主图',
+      key: 'mainImg',
       dataIndex: 'mainImg',
-      tableShow: false,
+      align: 'center',
+      editFlag: false,
+      render: (text, record) => (
+        <>
+          <Button className="btn" onClick={() => { doViewImg(record["mainImg"]) }} size="small">
+            查看
+          </Button>
+        </>
+      )
     }
+    // , {
+    //   title: '所属分组ID',
+    //   key: 'groupId',
+    //   dataIndex: 'groupId',
+    //   tableShow: false,
+    // }
+
+    // , {
+    //   title: '管理员ID',
+    //   key: 'userId',
+    //   dataIndex: 'userId',
+    //   tableShow: false,
+    // }
 
     , {
-      title: '所属分组ID',
-      dataIndex: 'groupId',
-      tableShow: false,
-    }
-
-    , {
-      title: '管理员ID',
-      dataIndex: 'userId',
-    }
-
-    , {
-      title: '状态0正常9下架',
+      title: '状态',
+      key: 'status',
+      width: 80,
+      align: 'center',
       dataIndex: 'status',
+      render: (text, record) => (
+        getStatus(record["status"])
+      )
     }
-
-    , {
-      title: '创建时间',
-      dataIndex: 'createTime',
-    }
-
-    , {
-      title: '最后修改时间',
-      dataIndex: 'lastModifiedTime',
-    }
-
-    , {
-      title: '备注',
-      dataIndex: 'remark',
-    }
-
     , {
       title: '经理姓名',
+      key: 'managerName',
       dataIndex: 'managerName',
     }
 
     , {
       title: '经理性别',
+      key: 'managerGender',
       dataIndex: 'managerGender',
+      tableShow: false,
     }
 
     , {
       title: '经理电话',
+      key: 'managerTel',
       dataIndex: 'managerTel',
     }
 
     , {
       title: '酒店联系电话',
+      key: 'phone',
       dataIndex: 'phone',
     }, {
+      title: '备注',
+      key: 'remark',
+      dataIndex: 'remark',
+      tableShow: false,
+    }, {
       title: '操作',
+      key: 'operations',
       dataIndex: 'operations',
       align: 'center',
       editFlag: false,
@@ -241,20 +274,19 @@ const THotelInfo: FC = () => {
   return (
     <>
       {isAuthorized(permissionPrefix + ':add') && <AddBtn />}
-      {isAuthorized(permissionPrefix + ':del') && <BatchDelBtn />}
       <MyTable
         key={key}
-        apiFun={hotelApi.findHotel}
+        apiFun={tHotelInfoApi.query}
         columns={columns}
         ref={tableRef}
         onSelectRow={selectRow}
         searchConfigList={searchConfigList}
         extraProps={{ results: 10 }}
       />
-      <MyModal title="酒店详情" visible={open && editFlag} onCancel={handCancle} onOk={handleOk} columns={columns}
+      <MyModal title="酒店详情" visible={open} onCancel={handCancle} onOk={handleOk} columns={columns}
         canEdit={canEdit} row={selectRow} onChange={onChange} />
-      <Modal title="添加酒店" visible={open && addFlag} onCancel={handCancle} onOk={handleOk} width={"90%"}>
-          <FindHotelModal/>
+      <Modal title="添加酒店" visible={addFlag} onCancel={handleAddOk} onOk={handleAddOk} width={"90%"}>
+        <FindHotelModal />
       </Modal>
     </>
   )
