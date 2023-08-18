@@ -214,15 +214,15 @@ export const getAllRevokes = () =>
  * 根据权限判断是否有权限
  */
 export const isAuthorized = (val: string): boolean => {
-  return true;
   const permissions = getPermission()
-  return !!permissions.find((_) => _.code === val)
+  return true;
+  return !!permissions.find((_) => _.path === val)
 }
 
 export const isRouter = (val: String): boolean => {
-  return true;
   const menus = getMenus();
-  return !!menus.find((_) => _.key === val)
+  console.log("isRouter",menus,val)
+  return !!menus.find((_) => _.path === val)
 }
 
 /**

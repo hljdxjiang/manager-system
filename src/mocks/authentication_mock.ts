@@ -26,31 +26,34 @@ export const userRes: UserInfo[] = [
       {
         path: 'hotel.hotel',
         desc: '查看角色列表'
+      },{
+        path: 'config.param',
+        desc: '参数配置'
       },
       {
-        path: 'auth:test:view',
-        desc: '查看权限测试页'
+        path: 'hotel.room.price',
+        desc: '房间价格'
       }
     ],
     permission: [
       {
-        code: 'user:list',
+        path: 'user:list',
         name: '查看用户列表'
       },
       {
-        code: 'user:role',
+        path: 'user:role',
         name: '新增用户列表'
       },
       {
-        code: 'hotel.room',
+        path: 'hotel.room',
         name: '编辑用户列表'
       },
       {
-        code: 'hotel.hotel',
+        path: 'hotel.hotel',
         name: '查看角色列表'
       },
       {
-        code: 'auth:test:view',
+        path: 'auth:test:view',
         name: '查看权限测试页'
       }
     ]

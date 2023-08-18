@@ -7,7 +7,6 @@ import MyTable from '@/components/common/table';
 import MyModal from '@/components/common/myModal'
 import "./index.less"
 import FindHotelModal from './findHotelModal';
-import { response } from 'msw';
 
 const THotelInfo: FC = () => {
 
@@ -17,7 +16,6 @@ const THotelInfo: FC = () => {
   const [addFlag, setAddFlag] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [selectRow, setSelectRow] = useState(Object);
-  const [selectKeys, setSelectKeys] = useState([]);
   const [key, setKey] = useState(String)
   // 添加
   const add = () => {
@@ -26,9 +24,6 @@ const THotelInfo: FC = () => {
     setCanEdit(true)
     setSelectRow({});
   }
-  const delBatch = () => {
-    console.log(selectKeys)
-  }
 
   // 新增按钮
   const AddBtn = () => (
@@ -36,14 +31,6 @@ const THotelInfo: FC = () => {
       新增
     </Button>
   )
-
-  // 新增按钮
-  const BatchDelBtn = () => (
-    <Button className="fr" style={{ marginRight: "10px" }} onClick={delBatch} type="primary">
-      删除
-    </Button>
-  )
-
   const getStatus = (status) => {
     switch (status) {
       case 0:
@@ -111,7 +98,9 @@ const THotelInfo: FC = () => {
   }
   const doDel = (record) => {
     tHotelInfoApi.deleteById(record)
+    setTimeout(()=>{
     setKey((Math.random() * 10).toString())
+    })
   }
 
   // 搜索栏配置项

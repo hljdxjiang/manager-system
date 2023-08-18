@@ -1,36 +1,14 @@
 import React, { useRef, FC, useState } from 'react'
 import { Button, Input, } from 'antd'
-import { isAuthorized } from '@/assets/js/publicFunc'
 import tUserInfoApi from '@/api/user/tUserInfo'
-import { onItemChange } from "@/utils/tableCommon";
 import MyPage from '@/components/common/myPage';
 
 const TUserInfo: FC = () => {
-  const [selectRow, setSelectRow] = useState(Object);
-  const [selectKeys, setSelectKeys] = useState([]);
   // 搜索栏配置项
   const searchConfigList = [
     {
       key: 'userId',
       slot: <Input placeholder="用户ID" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
-      key: 'passwd',
-      slot: <Input placeholder="密码" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
-      key: 'groupId',
-      slot: <Input placeholder="用户分组ID" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
-      key: 'roleId',
-      slot: <Input placeholder="角色ID" allowClear />,
       rules: [],
       initialValue: ''
     }
@@ -47,32 +25,8 @@ const TUserInfo: FC = () => {
       initialValue: ''
     }
     , {
-      key: 'email',
-      slot: <Input placeholder="邮箱地址" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
       key: 'idNo',
       slot: <Input placeholder="证件号" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
-      key: 'idType',
-      slot: <Input placeholder="证件类型" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
-      key: 'oauthCode',
-      slot: <Input placeholder="二次认证码" allowClear />,
-      rules: [],
-      initialValue: ''
-    }
-    , {
-      key: 'remark',
-      slot: <Input placeholder="用户备注" allowClear />,
       rules: [],
       initialValue: ''
     }
@@ -85,79 +39,69 @@ const TUserInfo: FC = () => {
   ]
   const columns = [
     {
-      title: '',
-      dataIndex: 'id',
-    }
-
-
-    , {
       title: '用户ID',
+      key: "userId",
       dataIndex: 'userId',
     }
 
     , {
-      title: '密码',
-      dataIndex: 'passwd',
-    }
-
-    , {
       title: '用户分组ID',
+      key: "groupId",
       dataIndex: 'groupId',
     }
 
     , {
       title: '角色ID',
+      key: "roleId",
       dataIndex: 'roleId',
     }
 
     , {
       title: '姓名',
+      key: "userName",
       dataIndex: 'userName',
     }
 
     , {
       title: '手机号',
+      key: "mobileNo",
       dataIndex: 'mobileNo',
     }
 
     , {
       title: '邮箱地址',
+      key: "email",
       dataIndex: 'email',
     }
 
     , {
       title: '证件号',
+      key: "idNo",
       dataIndex: 'idNo',
     }
 
     , {
       title: '证件类型',
+      key: "idType",
       dataIndex: 'idType',
     }
 
     , {
       title: '二次认证码',
+      key: "oauthCode",
       dataIndex: 'oauthCode',
     }
 
     , {
       title: '用户备注',
+      key: "remark",
       dataIndex: 'remark',
     }
 
     , {
       title: '用户状态',
+      key: "status",
       dataIndex: 'status',
-    }
-
-    , {
-      title: '创建时间',
-      dataIndex: 'createTime',
-    }
-
-    , {
-      title: '最后修改时间',
-      dataIndex: 'lastModifiedTime',
     }
 
   ]
@@ -170,7 +114,7 @@ const TUserInfo: FC = () => {
         addApiFun={tUserInfoApi.add}
         editApiFun={tUserInfoApi.edit}
         delApiFun={tUserInfoApi.deleteById}
-        showOpeation={false}
+        showOpeation={true}
         searchConfigList={searchConfigList}
       />
     </>

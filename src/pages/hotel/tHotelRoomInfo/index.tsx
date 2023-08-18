@@ -23,10 +23,6 @@ const THotelRoomInfo: FC = () => {
     setSelectRow({});
   }
 
-  const onSelectRow = (rowKeys: string[]) => {
-    setSelectKeys(rowKeys);
-    console.log(selectKeys)
-  }
 
   // 编辑
   const doEdit = (record) => {

@@ -5,7 +5,6 @@ import { Descriptions, Input, Button, Table, Modal, Row, Col } from 'antd'
 import "./index.less"
 import tHotelRoomPrice from '@/api/hotel/tHotelRoomPrice'
 import { TablePaginationConfig } from 'antd/lib/table'
-import { onItemChange } from '@/utils/tableCommon'
 import tHotelRoomPriceApi from '@/api/hotel/tHotelRoomPrice';
 
 /**
@@ -28,7 +27,6 @@ interface ModalProps {
   onCancel?: (arg0?: unknown) => void
   onOk?: (arg0?: unknown) => void
   doBack?: (arg0?: unknown) => void
-  onView?: (arg0?: unknown) => void
   canEdit?: boolean
   width?: string | number
   cancelText?: String
@@ -52,7 +50,6 @@ const HotelRoomPrice: FC<ModalProps> = (
       canEdit,
       title,
       doBack,
-      onView,
     } = props
 
     const back = () => {
@@ -277,7 +274,6 @@ HotelRoomPrice.defaultProps = {
   onOk: () => { },
   onCancel: () => { },
   doBack: () => { },
-  onView: () => { },
   width: "80%",
   cancelText: "取消",
   okText: "确认",

@@ -81,7 +81,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   const creatSubMenu = (data: CommonObjectType): JSX.Element => {
     const menuItemList = data.routes.reduce((prev, item: MenuType) => {
       const isAuthMenu = menus.find((ele) => item.key === ele.path)
-      return  !item.hideInMenu ? [...prev, renderMenu(item)] : prev
+      return  isAuthMenu&&!item.hideInMenu ? [...prev, renderMenu(item)] : prev
     }, [])
 
     return menuItemList.length > 0 ? (

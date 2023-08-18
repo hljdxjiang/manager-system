@@ -81,7 +81,7 @@ const AuthTest: FC = () => {
         dataSource={permission}
         renderItem={(item) => (
           <List.Item>
-            {item.name} - {item.code}
+            {item.name} - {item.path}
           </List.Item>
         )}
         style={{ margin: 20 }}

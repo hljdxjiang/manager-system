@@ -1,13 +1,8 @@
-import React, { useRef, FC, useState, useEffect } from 'react'
+import React, { useRef, FC, useState } from 'react'
 import { Button, Col, Input, Modal, Row, } from 'antd'
-import { isAuthorized } from '@/assets/js/publicFunc'
 import tHotelRoomPriceApi from '@/api/hotel/tHotelRoomPrice'
-import { onItemChange } from "@/utils/tableCommon";
-import MyPage from '@/components/common/myPage';
 import MySelect from '@/components/common/mySelect';
 import MyTable from '@/components/common/table';
-import { Obj } from 'reselect/es/types';
-import { Key } from 'antd/es/table/interface';
 
 const THotelRoomPrice: FC = () => {
   const [selectKeys, setSelectKeys] = useState([]);

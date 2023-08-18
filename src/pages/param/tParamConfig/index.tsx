@@ -1,13 +1,9 @@
-import React, { useRef, FC, useState } from 'react'
-import { Button, Input, } from 'antd'
-import { isAuthorized } from '@/assets/js/publicFunc'
+import React, { FC, useState } from 'react'
+import { Input, } from 'antd'
 import tParamConfigApi from '@/api/param/tParamConfig'
-import { onItemChange } from "@/utils/tableCommon";
 import MyPage from '@/components/common/myPage';
 
 const TParamConfig: FC = () => {
-  const [selectRow, setSelectRow] = useState(Object);
-  const [selectKeys, setSelectKeys] = useState([]);
   // 搜索栏配置项
   const searchConfigList = [
     {

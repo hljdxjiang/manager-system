@@ -35,12 +35,11 @@ const LoginForm: FC = () => {
     const { username, password } = values
 
     await session.login({ userId:username, passWD:password }).then((res) => {
-      const result = userRes[0]
       //TODO 以下代码为测试代码，需要从登录接口返回用户具有的所有菜单及权限
       // result.permission.forEach(element => {
       //   result.menus = [...result.menus, { key: element.code, desc: element.name }]
       // });
-      dispatch(setUserInfo(result))
+      dispatch(setUserInfo(res))
       history.push('/')
     }).catch((e)=>{
       const response = (e as any)?.response // Axios异常

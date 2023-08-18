@@ -85,7 +85,7 @@ const MyPage: FC<PageProps> = (
     const add = () => {
       setOpen(true)
       setCanEdit(true)
-      setSelectRow({});
+      setSelectRow({status:0});
     }
     // 编辑
     const doEdit = (record) => {

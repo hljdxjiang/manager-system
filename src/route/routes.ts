@@ -4,10 +4,7 @@ import {
   DashboardOutlined
 } from '@ant-design/icons'
 import Home from '@/pages/home'
-import Workspace from '@/pages/home/Workspace'
 import { MenuRoute } from '@/route/types'
-
-import NewUserList from '@/pages/user/newList'
 
 import TSysRole from '@/pages/sys/tSysRole'
 
@@ -18,6 +15,7 @@ import THotelRoomInfo from '@/pages/hotel/tHotelRoomInfo'
 import THotelRoomPrice from '@/pages/hotel/tHotelRoomPrice'
 
 import TParamConfig from '@/pages/param/tParamConfig'
+import TUserInfo from '@/pages/user/tUserInfo'
 /**
  * path 跳转的路径
  * component 对应路径显示的组件
@@ -31,6 +29,30 @@ const preDefinedRoutes: MenuRoute[] = [
     key: 'home',
     icon: HomeOutlined,
     component: Home
+  }, {
+    path: '/user',
+    name: '用户权限',
+    key: 'user',
+    type: 'subMenu',
+    icon: UserOutlined,
+    iconfont: 'icon-xiaoshouzongjian',
+    routes: [
+      {
+        path: '/user/list',
+        name: '用户列表',
+        exact: true,
+        key: 'user:list',
+        component: TUserInfo
+      },
+      {
+        path: '/user/TSysRole',
+        name: '角色权限',
+        exact: true,
+        key: 'user:role',
+        //hideInMenu: true,
+        component: TSysRole
+      }
+    ]
   },
   // {
   //   path: '/workspace',
@@ -80,7 +102,7 @@ const preDefinedRoutes: MenuRoute[] = [
       name: '系统配置',
       key: 'config',
       type: 'subMenu',
-      icon: UserOutlined,
+      icon: DashboardOutlined,
       iconfont: 'icon-xiaoshouzongjian',
       routes: [
         {
@@ -92,31 +114,7 @@ const preDefinedRoutes: MenuRoute[] = [
           component: TParamConfig
         },
       ]}
-  //, {
-  //   path: '/user',
-  //   name: '用户权限',
-  //   key: 'user',
-  //   type: 'subMenu',
-  //   icon: UserOutlined,
-  //   iconfont: 'icon-xiaoshouzongjian',
-  //   routes: [
-  //     {
-  //       path: '/user/list',
-  //       name: '用户列表',
-  //       exact: true,
-  //       key: 'user:list',
-  //       component: NewUserList
-  //     },
-  //     {
-  //       path: '/user/TSysRole',
-  //       name: '角色权限',
-  //       exact: true,
-  //       key: 'user:role',
-  //       //hideInMenu: true,
-  //       component: TSysRole
-  //     }
-  //   ]
-  // }
+
 ]
 
 export default preDefinedRoutes

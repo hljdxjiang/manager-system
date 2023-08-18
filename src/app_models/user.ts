@@ -1,5 +1,5 @@
 export interface Permission {
-  code: string
+  path: string
   name: string
   description?: string
 }
@@ -14,6 +14,7 @@ export interface Menu {
 }
 
 export interface UserInfo {
+  roleId?:String
   username: string
   displayName?: string
   password?: string
