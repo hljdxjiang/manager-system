@@ -94,7 +94,8 @@ const THotelRoomPrice: FC = () => {
           { name: '全部', key: '99' },
           { name: '售罄', key: '1' },
           { name: '涨价', key: '2' },
-          { name: '降价', key: '3' }
+          { name: '降价', key: '3' },
+          { name: '到店付', key: '4' }
         ]}
         placeholder="状态"
       />,
