@@ -58,6 +58,9 @@ const THotelRoomPrice: FC = () => {
       case 3:
         return "降价"
         break;
+      case 4:
+        return "到店付"
+        break;
       default:
         return status
     }
@@ -175,7 +178,7 @@ const THotelRoomPrice: FC = () => {
       title: '当前上架价格',
       key: 'myPrice',
       dataIndex: 'myPrice',
-    }      , {
+    }, {
       title: '协议价格',
       key: "agreementPrice",
       dataIndex: 'agreementPrice',
@@ -211,7 +214,7 @@ const THotelRoomPrice: FC = () => {
   return (
     <>
       <MyTable
-      key={key}
+        key={key}
         apiFun={tHotelRoomPriceApi.query}
         columns={columns}
         ref={tableRef}
