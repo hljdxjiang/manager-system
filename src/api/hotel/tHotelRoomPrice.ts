@@ -20,5 +20,8 @@ export default {
     // 模糊查询
     query(params?: object): Promise<CommonObjectType<any>> {
       return request.post('tHotelRoomPrice/fuzzyQuery', params)
+    },
+    selectChanged(params?: object): Promise<CommonObjectType<any>> {
+      return request.post('tHotelRoomPrice/selectChanged', params)
     }
 }

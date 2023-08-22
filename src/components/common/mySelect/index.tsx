@@ -6,6 +6,7 @@ const { Option } = Select
 interface Props {
   data: CommonObjectType<string>[];
   placeholder?: string;
+  allowClear?:boolean;
   rules?: Object[];
   value?: string;
   onChange?: (arg0: unknown) => void;
@@ -18,6 +19,7 @@ interface Props {
 const MySelect: FC<Props> = (props) => {
   const {
     data,
+    allowClear=false,
     rules,
     placeholder = '请输入搜索条件',
     value,
@@ -39,7 +41,7 @@ const MySelect: FC<Props> = (props) => {
 
   return (
     <Select
-      allowClear
+      allowClear={allowClear}
       disabled={disabled}
       onChange={handerChange}
       optionFilterProp="children"

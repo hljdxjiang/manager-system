@@ -47,14 +47,14 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response): Promise<any> => {
     // todo 应考虑在全局统一化响应数据格式.如果没有,则应移除这个拦截器
-    console.log("response",response)
+    console.log("response", response)
     const { data } = response
-    if(data.code==="401"){
-      commonConfirm("登录超时",()=>{
+    if (data.code === "401") {
+      commonConfirm("登录超时", () => {
         clearAll();
       })
     }
-    if(data.code!=="000000"){
+    if (data.code !== "000000") {
       message.error(data.message)
     }
     if (data.data) {
@@ -79,20 +79,29 @@ axios.interceptors.response.use(
   }
 )
 
+const getUrl = (url: String) => {
+  if (process.env.NODE_ENV === 'development') {
+    return "http://127.0.0.1:22456/background/" + url;
+  } else {
+    return "/background/" + url;
+  }
+}
+
 // post请求
 // @ts-ignore
 axios.post = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'post',
-    url:"/background/"+url,
+    url: getUrl(url),
     data: params
   })
+
 
 // get请求
 axios.get = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'get',
-    url:"/background/"+url,
+    url: getUrl(url),
     params
   })
 

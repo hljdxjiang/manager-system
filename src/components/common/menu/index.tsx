@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
 import MyIconFont from '@/components/common/myIconfont'
 import { flattenRoutes, getKeyName, getAppMenus } from '@/assets/js/publicFunc'
-import logo from '@/assets/img/logo.png'
+import logo from '@/assets/img/logo.jpg'
 import { useAppSelector } from '@/store/redux-hooks'
 import { selectUserInfo } from '@/store/slicers/userSlice'
 import { selectCollapsed, selectTheme } from '@/store/slicers/appSlice'
@@ -109,7 +109,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
     <Link to={{ pathname: '/' }}>
       <div className="flex items-center logo">
         <img alt="logo" src={logo} width="32" />
-        {!collapsed && <h1>Antd多页签模板</h1>}
+        {!collapsed && <h1>酒店管理系统</h1>}
       </div>
     </Link>
   )

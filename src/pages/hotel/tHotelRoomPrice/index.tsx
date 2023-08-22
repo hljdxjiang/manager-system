@@ -90,8 +90,9 @@ const THotelRoomPrice: FC = () => {
     , {
       key: 'status',
       slot: <MySelect
+        allowClear
         data={[
-          { name: '全部', key: '99' },
+          { name: '全部', key: '1,2,3,4' },
           { name: '售罄', key: '1' },
           { name: '涨价', key: '2' },
           { name: '降价', key: '3' },
@@ -100,7 +101,7 @@ const THotelRoomPrice: FC = () => {
         placeholder="状态"
       />,
       rules: [],
-      initialValue: '99'
+      initialValue: '1,2,3,4'
     }
   ]
   const columns = [
@@ -216,7 +217,7 @@ const THotelRoomPrice: FC = () => {
     <>
       <MyTable
         key={key}
-        apiFun={tHotelRoomPriceApi.query}
+        apiFun={tHotelRoomPriceApi.selectChanged}
         columns={columns}
         ref={tableRef}
         onSelectRow={onSelectRow}

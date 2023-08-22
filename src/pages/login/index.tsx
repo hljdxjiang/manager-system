@@ -4,7 +4,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Form, Input, Button, message } from 'antd'
 import ReactCanvasNest from 'react-canvas-nest'
 import './login.less'
-import Logo from '@/assets/img/logo.png'
+import Logo from '@/assets/img/logo.jpg'
 import session from '@/api/sys/session'
 import { OidcLogin } from '@/pages/login/OidcLogin'
 import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
@@ -111,7 +111,7 @@ const LoginForm: FC = () => {
       />
       <div className="logo-box">
         <img alt="" className="logo" src={Logo} />
-        <span className="logo-name">通用后管管理台</span>
+        <span className="logo-name">酒店管理系统</span>
       </div>
       {FormView}
     </div>
