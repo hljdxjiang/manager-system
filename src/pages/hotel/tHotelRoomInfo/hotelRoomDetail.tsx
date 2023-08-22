@@ -54,7 +54,6 @@ const HotelRoomDetail: FC<ModalProps> = (
 
 
     const back = () => {
-      console.log("back begin")
       doBack()
     }
 
@@ -67,7 +66,6 @@ const HotelRoomDetail: FC<ModalProps> = (
     const [edit, setEdit] = useState(false)
 
     useEffect(() => {
-      console.log("useEffect key", row, key)
       if (row === undefined) {
         console.log("useEffect key undefined")
         return;
@@ -102,7 +100,6 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     const doOk = (type) => {
       var newRecord = Object.assign(homeRecord, row)
-      console.log(newRecord)
       tHotelRoomInfo.add(newRecord)
       setTimeout(() => {
         setKey((Math.random() * 10).toString())
@@ -226,12 +223,6 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     var editColumns = [
       {
-        title: '房间ID',
-        key: "roomId",
-        dataIndex: 'roomId',
-      }
-
-      , {
         title: '房间名称',
         key: "roomName",
         dataIndex: 'roomName',
@@ -291,12 +282,6 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     var newHotelColumns = [
       {
-        title: '房间ID',
-        key: "roomId",
-        dataIndex: 'roomId',
-      }
-
-      , {
         title: '房间名称',
         key: "roomName",
         dataIndex: 'roomName',
@@ -345,7 +330,6 @@ const HotelRoomDetail: FC<ModalProps> = (
 
     const onChange = (e, stype?, sid?) => {
       var newRow={ ...homeRecord, [e.target.id]: e.target.value }
-      console.log("onChange",newRow)
       setHomeRecord(newRow)
     }
 

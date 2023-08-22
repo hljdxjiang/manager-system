@@ -36,7 +36,6 @@ const MySelect: FC<Props> = (props) => {
 
   useEffect(() => {
     //TODO 增加规则解析器
-    //console.log(rules)
   }, [props.value])
 
   return (

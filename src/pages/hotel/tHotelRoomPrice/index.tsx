@@ -13,15 +13,12 @@ const THotelRoomPrice: FC = () => {
 
   const onSelectRow = (rowKeys: string[]) => {
     setSelectKeys(rowKeys);
-    console.log(selectKeys)
   }
 
   const doOk = () => {
-    console.log("doOk", record)
     record.status = 0;
     setView(false)
     tHotelRoomPriceApi.edit(record).then((res) => {
-      console.log(res)
       setTimeout(() => {
         setKey((Math.random() * 10).toString())
       })
@@ -35,7 +32,6 @@ const THotelRoomPrice: FC = () => {
   }
 
   const doEdit = (record) => {
-    console.log(record)
     setRecord(record)
     setView(true)
   }
@@ -43,7 +39,6 @@ const THotelRoomPrice: FC = () => {
 
   const onChange = (e, stype?, sid?) => {
     var newRow = { ...record, [e.target.id]: e.target.value }
-    console.log("onChange", newRow)
     setRecord(newRow)
   }
 
@@ -105,24 +100,18 @@ const THotelRoomPrice: FC = () => {
     }
   ]
   const columns = [
+
+
     {
-      title: 'ID',
-      key: 'id',
-      dataIndex: 'id',
-      tableShow: false,
+      title: '酒店名称',
+      key: 'hotelName',
+      dataIndex: 'hotelName',
     }
 
     , {
-      title: '酒店ID',
-      key: 'hotelId',
-      dataIndex: 'hotelId',
-    }
-
-
-    , {
-      title: '房间ID',
-      key: 'roomId',
-      dataIndex: 'roomId',
+      title: '房间名称',
+      key: 'roomName',
+      dataIndex: 'roomName',
     }
 
     , {

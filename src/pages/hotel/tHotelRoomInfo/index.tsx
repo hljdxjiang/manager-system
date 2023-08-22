@@ -38,14 +38,12 @@ const THotelRoomInfo: FC = () => {
   }
 
   const viewPrice=(record)=>{
-    console.log("viewPrice",record)
     setRoomRow(record);
     setVisible(true)
     setShowPrice(true)
   }
 
   const doBack = (type) => {
-    console.log(type)
     if(type===undefined||type==="hotel"){
       setSelectRow({})
       setVisible(false)
@@ -54,7 +52,6 @@ const THotelRoomInfo: FC = () => {
       setVisible(true)
       setShowPrice(false)
     }
-    console.log("doback begin")
   }
 
   // 搜索栏配置项

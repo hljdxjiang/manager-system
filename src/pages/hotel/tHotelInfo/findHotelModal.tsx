@@ -118,7 +118,6 @@ const FindHotelModal: FC<ModalProps> = (
       record.mainImg=record.mainImage
       record.currentPrice=record.startingPrice
       tHotelInfo.add(record).then((response) => {
-        console.log("doSearch",response)
         setTimeout(()=>{
           doSearch()
         },500)
@@ -128,7 +127,6 @@ const FindHotelModal: FC<ModalProps> = (
 
     const onChange = (e, stype?, sid?) => {
       var newRow={ ...param, [e.target.id]: e.target.value }
-      console.log("onChange",newRow)
       setParam(newRow)
     }
 

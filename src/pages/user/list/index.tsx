@@ -52,7 +52,6 @@ const UserList: FC = () => {
 
   const onSelectRow = (rowKeys: string[]) => {
     setSelectKeys(rowKeys);
-    console.log(selectKeys)
   }
 
   const handleOk = () => {

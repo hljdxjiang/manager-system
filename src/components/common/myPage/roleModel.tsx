@@ -6,7 +6,6 @@ import { onItemChange } from "@/utils/tableCommon";
 import RoleModel from '../../../pages/sys/tSysRole/roleModel'
 import { Key } from 'antd/lib/table/interface'
 import roleApi from '@/api/sys/roleApi';
-import { response } from 'msw';
 
 
 interface PageProps {
@@ -33,13 +32,9 @@ const RolePage: FC<PageProps> = (
       apiFun,
       searchConfigList,
       showAddBtn,
-      showBatchDelBtn,
-      onSelectedChange,
       showOpeation,
       permissionPrefix,
-      addApiFun,
       delApiFun,
-      editApiFun
     } = props
 
     const tableRef: RefType = useRef()
@@ -91,7 +86,6 @@ const RolePage: FC<PageProps> = (
 
     const queryRoleDetail=(record)=>{
         roleApi.getRoleDetail(record).then((response)=>{
-          console.log("getRoleDetail response",response)
           setSelectedMenus(response.menus);
           setSelectedRevokes(response.revokes);
         }).catch((err)=>{
@@ -113,23 +107,17 @@ const RolePage: FC<PageProps> = (
       setCanEdit(false)
     }
     const doDel = (record) => {
-      console.log("doDel ",record)
       delApiFun(record)
       setKey((Math.random() * 10).toString())
     }
 
     const selectedChange=(keys,type)=>{
-      console.log("model onchange",keys,type)
       if(type==="menus"){
         setSelectedMenus(keys)
       }
       if(type==="revokes"){
         setSelectedRevokes(keys)
       }
-    }
-
-    const delBatch = () => {
-      console.log(selectKeys)
     }
 
     const beforeOk = () => {
@@ -162,19 +150,19 @@ const RolePage: FC<PageProps> = (
     const handleOk = () => {
       if(canEdit){
         var row = beforeOk();
-        console.log("handle ok row:",row)
         roleApi.saveRole(row).then((response)=>{
-          console.log("saveRole success",response)
+          setTimeout(()=>{
+            setSelectRow({});
+            setSelectedMenus([]);
+            setSelectedRevokes([]);
+            setCanEdit(false)
+            setOpen(false)
+            setKey((Math.random() * 10).toString())
+          })
         }).catch((err)=>{
           console.log("saveRole err",err)
         })
       }
-      setSelectRow({});
-      setSelectedMenus([]);
-      setSelectedRevokes([]);
-      setCanEdit(false)
-      setOpen(false)
-      setKey((Math.random() * 10).toString())
     }
 
     const handCancle = () => {

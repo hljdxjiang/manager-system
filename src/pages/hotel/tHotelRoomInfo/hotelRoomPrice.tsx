@@ -53,7 +53,6 @@ const HotelRoomPrice: FC<ModalProps> = (
     } = props
 
     const back = () => {
-      console.log("back begin")
       doBack()
     }
     const [priceList, setPriceList] = useState([])
@@ -71,7 +70,6 @@ const HotelRoomPrice: FC<ModalProps> = (
       obj["roomId"] = row["roomId"];
       obj["pageSize"] = pageSize;
       obj["pageNum"] = pageNum;
-      console.log("begin useEffect", obj)
       tHotelRoomPrice.queryByPage(obj).then((response) => {
         const total = response.total;
         setTotal(Number(total));
@@ -197,15 +195,12 @@ const HotelRoomPrice: FC<ModalProps> = (
     }
 
     const createInput = (item) => {
-      console.log("createInput", row)
       return <Input placeholder={item["title"]} id={item["dataIndex"]} allowClear value={row[item["dataIndex"]]} disabled={true} />
     }
 
     const doOk = () => {
-      console.log("doOk", priceRecord)
       setView(false)
       tHotelRoomPriceApi.edit(priceRecord).then((res) => {
-        console.log(res)
         setTimeout(() => {
           setKey((Math.random() * 10).toString())
         })
@@ -219,14 +214,12 @@ const HotelRoomPrice: FC<ModalProps> = (
     }
 
     const doEdit = (record) => {
-      console.log(record)
       setPriceRecord(record)
       setView(true)
     }
 
     const onChange = (e, stype?, sid?) => {
       var newRow = { ...priceRecord, [e.target.id]: e.target.value }
-      console.log("onChange", newRow)
       setPriceRecord(newRow)
     }
     return (

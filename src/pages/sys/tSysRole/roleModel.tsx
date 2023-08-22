@@ -85,13 +85,11 @@ const RoleModel: FC<ModalProps> = (
     }
 
     const handChange = (e, stype?, sid?) => {
-      console.log(e,stype,sid)
       onChange(e, stype, sid)
     }
 
 
     const onSelectCheck = (type,menusKey) => {
-      console.log('onSelectCheck', menusKey,type);
       onSelectedChange(menusKey,type)
       //setMenus(menusKey);
     };

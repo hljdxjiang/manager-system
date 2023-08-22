@@ -46,7 +46,6 @@ const MyPage: FC<PageProps> = (
     useEffect(() => {
       var tableColums = [];
       columns.forEach(element => {
-        console.log("columns", element)
         if (element["tableShow"] === undefined || element["tableShow"] === true) {
           tableColums.push(element);
         }
@@ -104,10 +103,6 @@ const MyPage: FC<PageProps> = (
       setKey((Math.random() * 10).toString())
     }
 
-    const delBatch = () => {
-      console.log(selectKeys)
-    }
-
     const beforeOk = () => {
       var row = selectRow
       columns.forEach(e => {
@@ -130,16 +125,8 @@ const MyPage: FC<PageProps> = (
       </Button>
     )
 
-    // 新增按钮
-    const BatchDelBtn = () => (
-      <Button className="fr" style={{ marginRight: "10px" }} onClick={delBatch} type="primary">
-        删除
-      </Button>
-    )
-
     const onSelectRow = (rowKeys: string[]) => {
       setSelectKeys(rowKeys);
-      console.log(selectKeys)
     }
 
     const handleOk = () => {
@@ -165,7 +152,6 @@ const MyPage: FC<PageProps> = (
     }
     return (<>
       {isAuthorized(permissionPrefix + ':add') && showAddBtn && <AddBtn />}
-      {isAuthorized(permissionPrefix + ':del') && showBatchDelBtn && <BatchDelBtn />}
       <MyTable
         key={key}
         apiFun={apiFun}

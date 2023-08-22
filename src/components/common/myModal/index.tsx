@@ -68,7 +68,6 @@ const MyModal: FC<ModalProps> = (
 
 
     const handChange = (e, stype?, sid?) => {
-      console.log(e,stype,sid)
       onChange(e, stype, sid)
     }
 

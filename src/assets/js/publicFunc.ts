@@ -221,7 +221,6 @@ export const isAuthorized = (val: string): boolean => {
 
 export const isRouter = (val: String): boolean => {
   const menus = getMenus();
-  console.log("isRouter",menus,val)
   return !!menus.find((_) => _.path === val)
 }
 

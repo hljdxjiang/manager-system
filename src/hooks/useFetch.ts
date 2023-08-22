@@ -34,7 +34,6 @@ export function useFetch(url, options = {}) {
 
     fetch(url, JSON.parse(serializedOptions))
       .then((res) => {
-        console.log(res.status, res.statusText)
         return res.json()
       })
       .then((data) => dispatch({ type: 'response', data }))

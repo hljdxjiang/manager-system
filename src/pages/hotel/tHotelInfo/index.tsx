@@ -48,7 +48,6 @@ const THotelInfo: FC = () => {
   const handleOk = (typ) => {
     var row = selectRow;
     tHotelInfoApi.edit(row).then((response) => {
-      console.log(response)
       setTimeout(() => {
         setSelectRow({});
         setCanEdit(false)
