@@ -49,7 +49,7 @@ axios.interceptors.response.use(
     // todo 应考虑在全局统一化响应数据格式.如果没有,则应移除这个拦截器
     console.log("response", response)
     const { data } = response
-    if (data.code === "401") {
+    if (data.code === "401"||data.code==="000100") {
       commonConfirm("登录超时", () => {
         clearAll();
       })
