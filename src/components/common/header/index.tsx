@@ -21,6 +21,7 @@ import {
 
 import classNames from 'classnames'
 import style from './Header.module.less'
+import PassChage from './passChange'
 
 const Header: FC = () => {
   const dispatch = useAppDispatch()
@@ -32,6 +33,7 @@ const Header: FC = () => {
   const firstWord = username.slice(0, 1)
   const [collapsed, setCollapsed] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [visible, setVisible] = useState(false);
   const logout = async () => {
     console.log('user 登出', userInfo)
     if (userInfo.is_oidc_user) {
@@ -44,8 +46,11 @@ const Header: FC = () => {
     }
   }
 
-  const changePwd=()=>{
-    message.info("comming soon");
+  const doSetVisible = (b) => {
+    setVisible(b)
+  }
+  const changePwd = () => {
+    doSetVisible(true)
   }
 
   const changeTheme = (themes: string) => {
@@ -54,12 +59,12 @@ const Header: FC = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={logout}>
-        <span className="ant-btn-link">退出登录</span>
-        {loading && <LoadingOutlined />}
-      </Menu.Item>
       <Menu.Item onClick={changePwd}>
         <span className="ant-btn-link">修改密码</span>
+        {loading && <LoadingOutlined />}
+      </Menu.Item>
+      <Menu.Item onClick={logout}>
+        <span className="ant-btn-link">退出登录</span>
         {loading && <LoadingOutlined />}
       </Menu.Item>
     </Menu>
@@ -128,50 +133,51 @@ const Header: FC = () => {
   }, [theme])
 
   return (
-    <Layout.Header
-      className={classNames(style.header, {
-        [style.horizontal]: menuMode === 'horizontal'
-      })}
-    >
-      {menuMode === 'vertical' && (
-        <>
-          <div className={style.toggleMenu} onClick={toggle}>
-            {collapsed ? (
-              <MenuUnfoldOutlined className={style.trigger} />
-            ) : (
-              <MenuFoldOutlined className={style.trigger} />
-            )}
-          </div>
-          {/* 面包屑 */}
-          <Breadcrumb />
-        </>
-      )}
+    <>
+      <Layout.Header
+        className={classNames(style.header, {
+          [style.horizontal]: menuMode === 'horizontal'
+        })}
+      >
+        {menuMode === 'vertical' && (
+          <>
+            <div className={style.toggleMenu} onClick={toggle}>
+              {collapsed ? (
+                <MenuUnfoldOutlined className={style.trigger} />
+              ) : (
+                <MenuFoldOutlined className={style.trigger} />
+              )}
+            </div>
+            {/* 面包屑 */}
+            <Breadcrumb />
+          </>
+        )}
 
-      {/* 右上角 */}
-      <Dropdown className={`fr ${style.content}`} overlay={menu}>
-        <span className={style.user}>
-          <span className="avart">{firstWord}</span>
-          <span>{username}</span>
-        </span>
-      </Dropdown>
-      <Dropdown className={`fr ${style.content}`} overlay={setting}>
-        <span className={style.preference}>
-          <Icon icon="emojione:gear" color="blue" />
-        </span>
-      </Dropdown>
-      <div className={`fr ${style.themeSwitchWrapper}`}>
-        <div
-          className={`${style.themeSwitch} ${theme === 'default' ? '' : style.themeSwitchDark
-            }`}
-          title="更换主题"
-          onClick={() => changeTheme(theme === 'default' ? 'dark' : 'default')}
-        >
-          <div className={style.themeSwitchInner} />
-          <Icon icon="emojione:sun" />
-          <Icon icon="bi:moon-stars-fill" color="#ffe62e" />
+        {/* 右上角 */}
+        <Dropdown className={`fr ${style.content}`} overlay={menu}>
+          <span className={style.user}>
+            <span className="avart">{firstWord}</span>
+            <span>{username}</span>
+          </span>
+        </Dropdown>
+        <Dropdown className={`fr ${style.content}`} overlay={setting}>
+          <span className={style.preference}>
+            <Icon icon="emojione:gear" color="blue" />
+          </span>
+        </Dropdown>
+        <div className={`fr ${style.themeSwitchWrapper}`}>
+          <div
+            className={`${style.themeSwitch} ${theme === 'default' ? '' : style.themeSwitchDark
+              }`}
+            title="更换主题"
+            onClick={() => changeTheme(theme === 'default' ? 'dark' : 'default')}
+          >
+            <div className={style.themeSwitchInner} />
+            <Icon icon="emojione:sun" />
+            <Icon icon="bi:moon-stars-fill" color="#ffe62e" />
+          </div>
         </div>
-      </div>
-      {/* <div className={`fr ${style.content}`}>
+        {/* <div className={`fr ${style.content}`}>
         <a
           href="https://github.com/hljdxjiang/react-admin-ts-antd"
           target="_blank"
@@ -185,7 +191,13 @@ const Header: FC = () => {
           />
         </a>
       </div> */}
-    </Layout.Header>
+      </Layout.Header>
+      <PassChage
+        onOk={() => { doSetVisible(false) }}
+        onCancel={() => { doSetVisible(false) }}
+        visible={visible}
+      ></PassChage>
+    </>
   )
 }
 export default Header

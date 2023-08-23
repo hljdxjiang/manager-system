@@ -8,7 +8,6 @@ const THotelRoomPrice: FC = () => {
   const [selectKeys, setSelectKeys] = useState([]);
   const [record, setRecord] = useState(Object);
   const [view, setView] = useState(false)
-  const [key, setKey] = useState(String)
   const tableRef: RefType = useRef()
 
   const onSelectRow = (rowKeys: string[]) => {
@@ -16,30 +15,23 @@ const THotelRoomPrice: FC = () => {
   }
 
   const doOk = () => {
-    record.status = 0;
-    record.lastJustPrice=record.price
-    record.diffPrice=0;
-    tHotelRoomPriceApi.edit(record).then((res) => {
-      setTimeout(() => {
-        setKey((Math.random() * 10).toString())
-        setView(false)
-      })
-    }).catch((err) => {
-      console.log(err)
-    })
+    doNeglect(record)
   }
 
   const doNeglect=(record)=>{
-    record.status = 0;
-    record.lastJustPrice=record.price
-    record.diffPrice=0;
-    tHotelRoomPriceApi.edit(record).then((res) => {
+    let editRecord=record;
+    editRecord.status = 0;
+    editRecord.lastJustPrice=editRecord.price
+    editRecord.diffPrice=0;
+    tHotelRoomPriceApi.edit(editRecord).then((res) => {
       setTimeout(() => {
-        setKey((Math.random() * 10).toString())
-      })
+      if(tableRef.current) tableRef.current.update()
+        setView(false)
+      },500)
     }).catch((err) => {
       console.log(err)
     })
+    setRecord({})
   }
   const doCancel = () => {
     setRecord({})
@@ -221,7 +213,6 @@ const THotelRoomPrice: FC = () => {
   return (
     <>
       <MyTable
-        key={key}
         apiFun={tHotelRoomPriceApi.selectChanged}
         columns={columns}
         ref={tableRef}

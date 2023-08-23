@@ -11,8 +11,8 @@ import roleApi from '@/api/sys/roleApi';
 interface PageProps {
   columns?: Object[]
   searchConfigList?: Object[]
-  selectedMenus?:Key[],
-  selectedRevokes?:Key[],
+  selectedMenus?: Key[],
+  selectedRevokes?: Key[],
   showAddBtn?: boolean
   showBatchDelBtn?: boolean
   showOpeation?: boolean
@@ -44,7 +44,6 @@ const RolePage: FC<PageProps> = (
     const [selectKeys, setSelectKeys] = useState([]);
     const [selectedMenus, setSelectedMenus] = useState([]);
     const [selectedRevokes, setSelectedRevokes] = useState([]);
-    const [key, setKey] = useState(String)
     const [tableColumns, setTabColumns] = useState([])
 
     useEffect(() => {
@@ -84,13 +83,13 @@ const RolePage: FC<PageProps> = (
       setSelectRow({});
     }
 
-    const queryRoleDetail=(record)=>{
-        roleApi.getRoleDetail(record).then((response)=>{
-          setSelectedMenus(response.menus);
-          setSelectedRevokes(response.revokes);
-        }).catch((err)=>{
-          console.log("getRoleDetail",err)
-        })
+    const queryRoleDetail = (record) => {
+      roleApi.getRoleDetail(record).then((response) => {
+        setSelectedMenus(response.menus);
+        setSelectedRevokes(response.revokes);
+      }).catch((err) => {
+        console.log("getRoleDetail", err)
+      })
     }
     // 编辑
     const doEdit = (record) => {
@@ -108,25 +107,25 @@ const RolePage: FC<PageProps> = (
     }
     const doDel = (record) => {
       delApiFun(record)
-      setKey((Math.random() * 10).toString())
+      if (tableRef.current) tableRef.current.update()
     }
 
-    const selectedChange=(keys,type)=>{
-      if(type==="menus"){
+    const selectedChange = (keys, type) => {
+      if (type === "menus") {
         setSelectedMenus(keys)
       }
-      if(type==="revokes"){
+      if (type === "revokes") {
         setSelectedRevokes(keys)
       }
     }
 
     const beforeOk = () => {
-      var obj={};
-      obj["roleId"]=selectRow.roleId;
-      obj["roleDesc"]=selectRow.roleDesc;
-      obj["roleName"]=selectRow.roleName;
-      obj["menus"]=selectedMenus
-      obj["revokes"]=selectedRevokes
+      var obj = {};
+      obj["roleId"] = selectRow.roleId;
+      obj["roleDesc"] = selectRow.roleDesc;
+      obj["roleName"] = selectRow.roleName;
+      obj["menus"] = selectedMenus
+      obj["revokes"] = selectedRevokes
       return obj;
     }
 
@@ -148,19 +147,19 @@ const RolePage: FC<PageProps> = (
     }
 
     const handleOk = () => {
-      if(canEdit){
+      if (canEdit) {
         var row = beforeOk();
-        roleApi.saveRole(row).then((response)=>{
-          setTimeout(()=>{
+        roleApi.saveRole(row).then((response) => {
+          setTimeout(() => {
             setSelectRow({});
             setSelectedMenus([]);
             setSelectedRevokes([]);
             setCanEdit(false)
             setOpen(false)
-            setKey((Math.random() * 10).toString())
+            if (tableRef.current) tableRef.current.update()
           })
-        }).catch((err)=>{
-          console.log("saveRole err",err)
+        }).catch((err) => {
+          console.log("saveRole err", err)
         })
       }
     }
@@ -175,7 +174,6 @@ const RolePage: FC<PageProps> = (
     return (<>
       {isAuthorized(permissionPrefix + ':add') && showAddBtn && <AddBtn />}
       <MyTable
-        key={key}
         apiFun={apiFun}
         columns={tableColumns}
         ref={tableRef}
@@ -188,9 +186,9 @@ const RolePage: FC<PageProps> = (
     </>
     )
   })
-  RolePage.defaultProps = {
+RolePage.defaultProps = {
   columns: [],
-  selectedMenus:[],
+  selectedMenus: [],
   onSelectedChange: () => { },
   searchConfigList: [],
   showAddBtn: true,
