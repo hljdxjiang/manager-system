@@ -85,12 +85,6 @@ const HotelRoomPrice: FC<ModalProps> = (
 
     var desColumns = [
       {
-        title: '房间ID',
-        key: "roomId",
-        dataIndex: 'roomId',
-      }
-
-      , {
         title: '房间名称',
         key: "roomName",
         dataIndex: 'roomName',

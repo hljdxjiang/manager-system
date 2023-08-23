@@ -17,7 +17,22 @@ const THotelRoomPrice: FC = () => {
 
   const doOk = () => {
     record.status = 0;
-    setView(false)
+    record.lastJustPrice=record.price
+    record.diffPrice=0;
+    tHotelRoomPriceApi.edit(record).then((res) => {
+      setTimeout(() => {
+        setKey((Math.random() * 10).toString())
+        setView(false)
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  const doNeglect=(record)=>{
+    record.status = 0;
+    record.lastJustPrice=record.price
+    record.diffPrice=0;
     tHotelRoomPriceApi.edit(record).then((res) => {
       setTimeout(() => {
         setKey((Math.random() * 10).toString())
@@ -47,10 +62,10 @@ const THotelRoomPrice: FC = () => {
       case 1:
         return "售罄";
         break;
-      case 2:
+      case 3:
         return "涨价"
         break;
-      case 3:
+      case 2:
         return "降价"
         break;
       case 4:
@@ -65,14 +80,14 @@ const THotelRoomPrice: FC = () => {
   // 搜索栏配置项
   const searchConfigList = [
     {
-      key: 'hotelId',
-      slot: <Input placeholder="酒店ID" allowClear />,
+      key: 'hotelName',
+      slot: <Input placeholder="酒店名称" allowClear />,
       rules: [],
       initialValue: ''
     }
     , {
-      key: 'roomId',
-      slot: <Input placeholder="房间ID" allowClear />,
+      key: 'roomName',
+      slot: <Input placeholder="房间名称" allowClear />,
       rules: [],
       initialValue: ''
     }
@@ -89,8 +104,8 @@ const THotelRoomPrice: FC = () => {
         data={[
           { name: '全部', key: '1,2,3,4' },
           { name: '售罄', key: '1' },
-          { name: '涨价', key: '2' },
-          { name: '降价', key: '3' },
+          { name: '涨价', key: '3' },
+          { name: '降价', key: '2' },
           { name: '到店付', key: '4' }
         ]}
         placeholder="状态"
@@ -100,8 +115,6 @@ const THotelRoomPrice: FC = () => {
     }
   ]
   const columns = [
-
-
     {
       title: '酒店名称',
       key: 'hotelName',
@@ -196,6 +209,9 @@ const THotelRoomPrice: FC = () => {
         <>
           <Button className="btn" onClick={() => { doEdit(record) }} size="small">
             维护
+          </Button>
+          <Button className="btn" onClick={() => { doNeglect(record) }} size="small">
+            忽略
           </Button>
         </>
       )

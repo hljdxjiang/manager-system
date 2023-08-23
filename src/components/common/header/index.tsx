@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Menu, Dropdown, Layout } from 'antd'
+import { Menu, Dropdown, Layout, message } from 'antd'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -44,6 +44,10 @@ const Header: FC = () => {
     }
   }
 
+  const changePwd=()=>{
+    message.info("comming soon");
+  }
+
   const changeTheme = (themes: string) => {
     dispatch(setTheme(themes))
   }
@@ -52,6 +56,10 @@ const Header: FC = () => {
     <Menu>
       <Menu.Item onClick={logout}>
         <span className="ant-btn-link">退出登录</span>
+        {loading && <LoadingOutlined />}
+      </Menu.Item>
+      <Menu.Item onClick={changePwd}>
+        <span className="ant-btn-link">修改密码</span>
         {loading && <LoadingOutlined />}
       </Menu.Item>
     </Menu>

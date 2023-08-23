@@ -22,6 +22,7 @@ export default {
       return request.post('tHotelRoomPrice/fuzzyQuery', params)
     },
     selectChanged(params?: object): Promise<CommonObjectType<any>> {
+      console.log("selectChanged",params)
       return request.post('tHotelRoomPrice/selectChanged', params)
     }
 }
